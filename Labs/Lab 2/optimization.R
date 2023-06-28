@@ -76,7 +76,7 @@ lower <- fit$par-1.96*prop_sigma
 approx_interval <- data.frame(metric=c("ln(a)","b","sigma"),method="optim (BFGS)",value=fit$par,sd=prop_sigma, upper=upper, lower=lower)
 
 
-# make a function that returns the posterior distribution and marginal distributions 
+# make a function that returns the posterior distribution and marginal distributions
 # this fn should input a fixed sigma, a parameter that controls the size of the grid, the data, and the Froese et al. 2012 priors for log10(a) and b
 # this fn should set up a grid, and loop through each element of the grid to calculate the prior, likelihood, and the posterior for each paramater combination
 # remember that the posterior = prior * likelihood
