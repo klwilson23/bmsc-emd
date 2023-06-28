@@ -1,29 +1,220 @@
 ---
-title: "Lab 1"
+title: "Lab 2: maximum likelihood and Bayesian grid approximation"
 output: html_document
 date: "2023-06-19"
+author: "Kyle L. Wilson"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyr)
+library(ggplot2)
 ```
 
-## R Markdown
+### Likelihood optimization and Bayesian posterior grid approximation
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+To demonstrate what we've learned from class regarding likelihoods, we will do some comparisons between frequentist (likelihood) and Bayesian approaches. Through this exercise, we should see some similarities, through the likelihood function and some differences - typically through priors and how uncertainty is quantified.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+First, let's generate some data on tree heights with a mean of $\mu$ and standard deviation of $\sigma$
 
-```{r cars}
-summary(cars)
+```{r generate the data}
+set.seed(10072023) # lets set the seed to be 10th of July 2023
+# How many samples do we have?
+N <- 5
+
+# Generate data
+sigma <- 2.25
+unknown_mu <- runif(1, 10,25)
+tree_height <- rnorm(n = N,mean = unknown_mu,sd = sigma) 
 ```
 
-## Including Plots
+`r N` is not a lot of datapoints, but let's see what we can make of this.
 
-You can also embed plots, for example:
+Next, we will make some functions that we use to calculate the target objectives: let's start with the sum of squared residuals and then turn this into a likelihood.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r make functions}
+ss <- function(theta,data)
+{
+  mu <- theta[1]
+  #sigma <- exp(theta[2])
+  sq_res <- (data - mu)^2
+  ss <- sum(sq_res)
+  return(ss)
+}
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Once we've built ourselves an objective function, let's call an optimization algorithm. R has one built in called `optim()`, but there are many available. `optim` works by minimizing (or, inversely, maximizing) an objective function. Here, our objective function is the sums of squared errors: i.e., we want to minimize the sums of squared errors. This should be familiar from previous stats classes.
+
+```{r call optim}
+theta <- c(mean(tree_height))
+fit <- optim(par=theta,fn=ss,data=tree_height,control=list(fnscale=1))
+ss_results <- data.frame(metric=c("mu"),method="optim (SS)",value=fit$par,sd=NA, upper=NA, lower=NA)
+
+```
+What does this estimate look like? Now, there is more than one parameter that we used to generate the data. 
+
+#### question: What are we missing in the sums of squared errors?
+
+Let's add that into a new function that we will call the log-likelihood. We use the log-likelihood rather than the likelihood because likelihoods are very small numbers (think of it, what is the likelihood of one particular realized data among all possible data for a distribution - not particularly likely). The joint likelihood is the product of all likelihoods - hence, smaller numbers get even smaller. Eventually, our computer cannot store that precise of information, called underflow, and we lose the signal. But recall the rule of logs: the sum of the logs is the same as the product of the originals. So, if we log the likelihood, we can sum their logs to get larger numbers rather than smaller numbers. 
+
+Most modern statistical analyses work by evaluating the log-likelihood. As well, most optimization routines work by minimizing a target function rather than maximizing (but this can be changed). Hence, many statistical analyses lean on the negative log-likelihood. At the end of the day, by minimizing the negative log-likelihood we will have found the maximimum likelihood estimate of the model to the data. With a *normal* distribution, this is equivalent to having minimized the sum of squared errors (or residuals).
+
+Let's make the likelihood function now, and assume a *normal* error in tree heights. Why might this assumption be wrong?
+
+The optimization software gives us more than just the estimated parameters. It also returns the gradient of the 2nd derivative of the log-likelihood for each of the parameters. This is called the Hessian matrix. The 2nd derivative of a *normal* distribution is a parabola: so once we know the mode and the 2nd derivative of a parabola, then we know everything about it. Taking the inverse of the negative Hessian will then give us the asymptotic variance-covariance matrix of the estimates. The standard deviation is the square roots of the diagonal elements of the variance-covariance matrix (with the diagonals being the variance). 
+
+Note that:
+
+* If you are maximizing the log-likelihood, then the NEGATIVE of the Hessian is the "observed information". If you minimize the log-likelihood, then the returned Hessian is the "observed information".
+* If you minimize a "deviance" = (-2)*log(likelihood), then the half of the Hessian is the observed information.
+* In the unlikely event that you are maximizing the likelihood itself, you need to divide the negative of the Hessian by the likelihood to get the observed information.
+
+```{r change to likelihood}
+ll <- function(theta,data)
+{
+  mu <- theta[1]
+  sigma <- exp(theta[2])
+  like <- (1/(sigma*sqrt(2*pi)))*exp(-0.5*((mu-data)/sigma)^2)
+  ll <- sum(log(like))
+  return(ll)
+}
+theta <- c(mean(tree_height),sd(tree_height))
+fit <- optim(par=theta,fn=ll,hessian=TRUE,data=tree_height,control=list(fnscale=-1))
+
+# generate 95% confidence intervals from optim by using the Hessian matrix
+fisher_info <- solve(-fit$hessian) # invert the negative Hessian matrix
+prop_sigma <- sqrt(diag(fisher_info)) # take the square roots of the main diagonals of the variance-covariance matrix (squared root of variance is the std. deviation)
+upper <- fit$par+1.96*prop_sigma # asymptotic confidence intervals is mean +/- 1.96*sigma
+lower <- fit$par-1.96*prop_sigma
+# store the maximum likelihood estimates and 95% CI in a data frame
+approx_interval <- data.frame(metric=c("mu","ln(sigma)"),method="optim (Like)",value=fit$par,sd=prop_sigma, upper=upper, lower=lower)
+optim_intervals <- merge(approx_interval,ss_results,all=TRUE)
+print(optim_intervals)
+
+```
+Let's compare that to the sums of squared errors results, with the added benefit of knowing something about the observation uncertainty itself.
+
+Next, let's do something Bayesian with this. Bayesian posteriors have a rich and intuitive way of understanding estimates and their uncertainty. In some situations, we can calculate a Bayesian posterior analytically. But in most situations, we must describe a posterior using numerical methods that only approximate the distribution. Below, we will do this through a grid approximation, which is a simple tool just to get comfortable with what priors and likelihoods are doing behind the scenes. Ultimately, grid approximation will not be sufficient for us and we will move on to Markov Chain Monte Carlo methods.
+
+But let's do a Bayesian grid approximation. Grid search involves four steps:
+
+* Define the grid of possible values
+* Evaluate the prior and the likelihood
+* Calculate the posterior as the product of the prior * likelihood
+  - Normalize the posterior
+* Random sample the grid with respect to the normalized posterior probabilities
+
+
+First, we set up the grid.
+```{r set up the grid}
+
+# Define a grid of points for mu
+grid_size <- 100
+mu_grid <- seq(from = 5, to = 30, length = grid_size)
+```
+
+
+## Grid approximation
+Once we've set up the grid, we can loop along that grid to calculate the prior probabilty and the joint log-likelihood of the probablity of the data to a range of possible $\mu$. The product of the prior*likelihood (not the log-likelihood) is the posterior.
+
+```{r grid approx, echo=FALSE}
+likelihood <- prior <- posterior <- rep(NA,length(mu_grid))
+for(i in 1:length(mu_grid))
+{
+  likelihood[i] <- sum(dnorm(x = tree_height, mean=mu_grid[i], sd = sigma,log=TRUE))
+  prior[i] <- rep(1, length(mu_grid[i])) # flat prior
+  posterior[i] <- exp(likelihood[i])*sum(prior[i])  
+}
+
+# normalize posterior
+posterior <- posterior/(sum(posterior))
+
+# Make data frame
+df <- data.frame(mu = mu_grid, likelihood=exp(likelihood)/sum(exp(likelihood)), prior=exp(prior)/sum(exp(prior)), posterior,samp_size=factor(N),prior_type="flat")
+
+```
+
+Let's change the prior to a normal prior where the average tree height is 15 m and a standard deviation is 1. This could come from a variety of sources, including other studies or local knowledge.
+```{r grid with prior}
+
+likelihood <- prior <- posterior <- rep(NA,length(mu_grid))
+for(i in 1:length(mu_grid))
+{
+  likelihood[i] <- sum(dnorm(x = tree_height, mean=mu_grid[i], sd = sigma,log=TRUE))
+  prior[i] <- dnorm(mu_grid[i],mean=15,sd=1,log=TRUE) # normal prior
+  posterior[i] <- exp(likelihood[i])*(exp(prior[i]))  
+}
+# normalize posterior
+posterior <- posterior/(sum(posterior))
+
+# Make data frame
+df2 <- data.frame(mu = mu_grid, likelihood=exp(likelihood)/sum(exp(likelihood)), prior=exp(prior)/sum(exp(prior)), posterior,samp_size=factor(N),prior_type="normal")
+df_total <- merge(df,df2,all=TRUE)
+df_l <- df_total %>% 
+  tidyr::gather(key = "func", value = "value", -c("mu","prior_type","samp_size"))
+#head(df_l,5)
+```
+
+
+Next, let's plot the long-form data table and compare the results of our priors.
+```{r compare}
+ggplot2::ggplot(df_l,aes(x = mu, y = value, color = func)) +
+  geom_line(lwd=1) +
+  geom_vline(xintercept = unknown_mu, color = "blue") +
+  facet_wrap(~prior_type,ncol=2) +
+  theme_minimal() + theme(legend.position = "top") +
+  scale_color_brewer(type="qual")
+```
+Play around with how much information the prior has by increasing or decreasing the sd of the prior.
+
+#### question: What is the effect of the normal prior here? 
+
+### Sample size
+Let's increase the sample sizes to see what the effect of more samples would do for the posterior.
+```{r more sample sizes}
+# How many samples do we have?
+N <- 20
+
+# Generate data
+tree_height <- rnorm(n = N,mean = unknown_mu,sd = sigma)
+
+likelihood <- prior <- posterior <- rep(NA,length(mu_grid))
+for(i in 1:length(mu_grid))
+{
+  likelihood[i] <- sum(dnorm(x = tree_height, mean=mu_grid[i], sd = sigma,log=TRUE))
+  prior[i] <- dnorm(mu_grid[i],mean=15,sd=1,log=TRUE) # normal prior
+  posterior[i] <- exp(likelihood[i])*exp(prior[i])  
+}
+# normalize posterior
+posterior <- posterior/(sum(posterior))
+
+# Make data frame
+df3 <- data.frame(mu = mu_grid, likelihood=exp(likelihood)/sum(exp(likelihood)), prior=exp(prior)/sum(exp(prior)),posterior,samp_size=factor(N),prior_type="normal")
+df_all <- merge(df_total,df3,all=TRUE)
+df_l <- df_all %>% 
+  tidyr::gather(key = "func", value = "value", -c("mu","samp_size","prior_type"))
+#head(df_l,5)
+ggplot2::ggplot(df_l[df_l$prior_type=="normal" & df_l$func=="posterior",],aes(x = mu, y = value, color = samp_size)) +
+  geom_line(lwd=1) +
+  geom_vline(xintercept = unknown_mu, color = "blue") +
+  theme_minimal() + theme(legend.position = "top") +
+  scale_color_brewer(type="qual")
+```
+
+Next, let's derive posterior statistics, like the mode, mean, sd, and 95% credible intervals. 
+
+#### Question: How do these compare to our maximum likelihood approaches?
+```{r}
+# calculate the MAP, MEAN, 95% CI, and SD for ln(a) and b
+mu_mn <- sum(df3$mu*df3$posterior)
+#posterior_samps_lna <- sample(x=norm_post$log_alpha,size=1e4,prob=norm_post$posterior,replace=TRUE)
+posterior_samps_mu <- sample(x=df3$mu,size=1e4,prob=df3$posterior,replace=TRUE)
+mu_ui <- quantile(posterior_samps_mu,probs=0.975)
+mu_li <- quantile(posterior_samps_mu,probs=0.025)
+mu_sd <- sqrt(sum(df3$mu^2*df3$posterior) - sum(df3$mu*df3$posterior)^2)
+grid_interval <- data.frame(metric=c("mu"),method="grid approx",value=mu_mn,sd=mu_sd, upper=mu_ui, lower=mu_li)
+
+intervals <- merge(optim_intervals,grid_interval,all=TRUE)
+print(intervals)
+
+```
