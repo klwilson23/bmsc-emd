@@ -1,10 +1,11 @@
 ---
 title: "Lab 3: Linear models and Bayesian MCMC"
 output: html_document
-date: "2023-07-06"
+date: "2023-07-05"
+author: "Kyle L. Wilson"
 ---
 
-```{r setup, echo=FALSE, message=FALSE}
+```{r setup}
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 library(dplyr)
 library(ggplot2)

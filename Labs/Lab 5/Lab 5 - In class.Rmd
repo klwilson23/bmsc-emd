@@ -1,10 +1,11 @@
 ---
-title: "Lab 5: Hierarchical models and derived parameters"
+title: "Lab 5: Hierarchical models and likelihood profiles"
 output: html_document
-date: "2023-06-19"
+date: "2023-07-07"
+author: "Kyle L. Wilson"
 ---
 
-```{r setup, include=FALSE}
+```{r setup}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 library(nlme)
@@ -23,12 +24,19 @@ A mixed effects model is a model that has both *fixed effects* and *random effec
 
 Classical (frequentist) and Bayesian methods can be used to estimate the parameters of mixed effects models. This lab and homework will cover Frequentist. Lab 6 will cover their implementation in Stan.
 
+We selected six streams (at random) and measure fish densities at each stream, each surveyed three times. We can then ask the following questions: 
+-What is the density in a typical stream?
+-What is the variation in density among streams?
+-What is the variation in density estimates within a stream?
+
+
 ```{r read the data}
 Streams <- readRDS(file="Data/streams.rds")
 colnames(Streams) <- c("Stream","true_density","Density")
 ```
 
-## Including Plots
+### Fixed effects model
+First, let's fit a relatively simple intercept-only model which speaks to the fish density in a typical stream.
 
 ```{r lm version 1, echo=FALSE}
  print("Linear Fixed Effects Model")
@@ -39,9 +47,9 @@ colnames(Streams) <- c("Stream","true_density","Density")
  print(paste("AIC ",AIC(lm1)))
 ```
 
-This analysis attributed all the error to within-stream variation. However, it is clear that there is between-stream variation in density but we have no way to make any inference or insight on it. 
+Note that this analysis attributed all the error to within-stream variation. However, our residual plots by stream (as a grouping factor) illustrates that there is between-stream variation in density but we have no way to make any inference or insight on it.
 
-Let's see if we can ask if streams vary instead?
+Let's see if we can ask how do streams vary instead? Fit a linear mixed effects model (and drop the intercept using the `-1` term in `lm()`)
 ```{r lm version 2, echo=FALSE}
 print("Linear Fixed Effects Model, with stream-effect") 
 lm2 <- lm(Density~Stream-1,data=Streams)   
@@ -51,7 +59,7 @@ lm2 <- lm(Density~Stream-1,data=Streams)
  print(paste("AIC ",AIC(lm2)))
 ```
 
-Well, good news. The residual pattern has been removed, but we have no overall mean and no way to comment on between-stream variance, i.e. we cannot say anything about the population of streams
+Well, good news. The residual pattern has been removed, but now we have no overall mean and no way to comment on between-stream variance, i.e. we cannot say anything about the population of streams. From here, we will fit a mixed-effects model. This can be done with a few different packages in R including `nlme`, `lme4`, `glmmTMB`, and more! In a Bayesian context, this can be fun using `brms` (which you may wish to try at some point for your assignments).
 
 ```{r lme, echo=FALSE}
  lm3 <- lme(fixed = Density ~ 1,data=Streams,random = ~ 1 | Stream) 
@@ -67,8 +75,9 @@ abline(b=1,a=0) # add a 1:1 line for comparison
 ```
 
 ### Hierarchical model: what's under the hood
-We are going to construct a numerical algorithm, using Simpson's 1/3 rule, to approximate the integral of the random effects conditional on the maximum likelihood estimate. To do this, we will:
-- create a 1st function that calculates the likelihood inside the integral
+
+We are going to construct a numerical algorithm, using Simpson's 1/3 rule (see here: https://en.wikipedia.org/wiki/Simpson%27s_rule#Simpson's_1/3_rule), to approximate the integral of the random effects conditional on the estimates for the fixed effects. To do this, we will:
+- create a 1st function that calculates the likelihood inside the step of the integral
 - create a 2nd function that applies the Simpson's Rule that to function 1 to look over possibles values of the random effects $b_i$, from -5 to 5 and calls *function 1*
 - create a 3rd function that provides the joint likelihood for the model and calls *function 2*
 - create a 4th function that maximizes the likelihood, using the `mle()` function in R that calls *function 3*.
@@ -90,7 +99,7 @@ norm.lik = function(bi,sig_e,sig_b,beta,stream)
 }
 ```
 
-Here is *Function 2*, which applies Simpson's 1/3 Rule and calls *Function 1*.
+Here is *Function 2*, which applies Simpson's 1/3 Rule and calls *Function 1* to integrate the likelihood for random effects across potential values for the random effect $b_i$ (bounded from -5 to 5) that changed by a sequence of small steps. Simpson’s rule allows us to calculate a full likelihood for the parameter estimates (the fixed effects) that accounted for the likelihood of the random effect of stream *i*. 
 
 ```{r apply simpsons rule in function 2}
 simpson  <-  function(lowerb, upperb, nbins, stream,beta, sig_e, sig_b) 
@@ -147,48 +156,50 @@ Can you compare this to the estimates from `lme()` or `lme4()`?
 summary(fit1)
 summary(lm3)
 ```
-Next, let's use likelihood profiling - very similar to the Grid Approximation in Lab 2, but applied to Maximum Likelihood Estimation rather than Bayesian inference. To do this, we set up a sequence of possible parameters (in our case, $\beta$ - the group-level mean density among streams) from which to calculate log-likelihoods from (conditional on the updated ML estimates of the *other* parameters)
+Let's compute a likelihood profile for the population mean density $\beta$ and compare the 95% confidence intervals from this likelihood profile with that determined using LME.
+
+Likelihood profiling is very similar to the Grid Approximation in Lab 2, but applied to Maximum Likelihood Estimation rather than Bayesian inference. To do this, we set up a sequence of possible parameters (in our case, $\beta$ - the group-level mean density among streams) from which to calculate log-likelihoods from (conditional on the updated ML estimates of the *other* parameters).
 
 We will re-arrange our functions accordingly.
 
-Confidence intervals from likelihood profiling are based on the log-likelihood function.  For a given parameter, likelihood theory shows that the two furthest points along a sequence of the parameter that are within 1.92 units of the maximum of the log-likelihood function provide a 95% confidence interval when there is no extrabinomial variation (i.e. c = 1). The value 1.92 is half of the chi-square value of 3.84 with 1 degree of freedom. Thus, the same confidence interval can also be calculated from the deviance by adding 3.84 to the minimum of the deviance function (where the deviance is the log-likelihood multiplied by -2 minus the -2 log likelihood value of the maxmum likelihood model).
+Confidence intervals from likelihood profiling are based on the log-likelihood function.  For a given parameter, likelihood theory shows that the upper and lower points along a sequence of potential values in that parameter that fall within 1.92 units of the maximum of the log-likelihood function provide a 95% confidence interval when there is no extrabinomial variation (i.e. c = 1). The value 1.92 comes from being half of the $\chi_2$ value of 3.84 with 1 degree of freedom. Thus, the same confidence interval can also be calculated from the deviance by adding 3.84 to the minimum of the deviance function (where the deviance is the log-likelihood multiplied by -2 minus the -2 log likelihood value of the maxmum likelihood model).
 
-Below is a likelihood profile of the beta parameter (based on a search along $\beta_{MLE}\pm0.75\beta_{MLE}$ constructed for the numerical computation of a mixed-effects model of the Streams dataset. This function calculates the negative log-likelihood was profiled across fixed values for beta to assess the 95% confidence intervals, calculated as the minimum and maximum values of β for which $ln\mathcal{L}(\theta|\beta_i )\ge(ln\mathcal{L}(\theta|\beta_{MLE})-1.92)$. The 95% CI from likelihood profiling are compared to the 95% CI calculated from the ‘LME’ package using the function ‘intervals’ in Program R.
+Below is a likelihood profile of the beta parameter (based on a search along $\beta_{MLE}\pm0.75\beta_{MLE}$ constructed for the numerical computation of a mixed-effects model of the Streams dataset. This function calculates the negative log-likelihood profiled across fixed values for beta to assess the 95% confidence intervals, calculated as the minimum and maximum values of β for which $ln\mathcal{L}(\theta|\beta_i )\ge(ln\mathcal{L}(\theta|\beta_{MLE})-1.92)$. The 95% CI from likelihood profiling are compared to the 95% CI calculated from the ‘LME’ package using the function ‘intervals’ in Program R.
 
 ```{r profile}
 b.profile=seq(from=beta-0.75*beta,to=beta+0.75*beta,length=1000)
+lowerb <- -5
+upperb <- 5
+nbins <- 100
 theta=c(beta,sig_e,sig_b)
 b.pro.fun = function (theta) #(theta)
 {
-  beta=b.pro
-  sig_e=sig_e
-  sig_b=sig_b
-  lowerb=-5
-  upperb=5
-  nbins=100
-  stream=c(1,2,3,4,5,6)
+  beta <- b.pro # note that now the estimate of b.pro is fixed
+  sig_e <- sig_e # in this case, we will fix sig_e as well but we could re-estimate that here
+  sig_b <- sig_b # in this case, we will fix sig_e as well but we could re-estimate that here
+  stream <- c(1,2,3,4,5,6)
   like.str=vector(length=length(stream))
   for (i in stream)
   {
-    like.str[i]=simpson(lowerb=lowerb, upperb=upperb, nbins=nbins, 
+    like.str[i] <- simpson(lowerb=lowerb, upperb=upperb, nbins=nbins, 
                         sig_e=sig_e, sig_b=sig_b, beta=beta, stream=stream[i])
   }
-  nll=(-1)*sum(log(like.str))
+  nll <- (-1)*sum(log(like.str))
   return(nll)
 }
 
 beta.loglik=rep(NA,length(b.profile))
 for(i in 1:length(b.profile))
 {
-  b.pro=b.profile[i]
-  fit.pro=optim(theta,b.pro.fun,method="BFGS",control=list(maxit=1000))
-  beta.loglik[i]=fit.pro$value
+  b.pro <- b.profile[i]
+  fit.pro <- optim(theta,b.pro.fun,method="BFGS",control=list(maxit=1000))
+  beta.loglik[i] <- fit.pro$value
 }
 df=data.frame("b.profile"=b.profile,"log-like"=beta.loglik)
 plot(b.profile,beta.loglik,type="l",lty=1,lwd=2,col="black",ylab="Negative Log-Likelihood",xlab="Beta")
 abline(v=df[,1][which(df[,2]==min(df[,2]))],col="red",lty=1)
 x <- which((-1)*beta.loglik>=logLik(fit1)[1]-1.92) # where is the 
-print(range(x)) # here are the minimum/maximum estimates of beta within the 95% CI
+print(b.profile[c(min(x),max(x))]) # here are the minimum/maximum estimates of beta within the 95% CI
 print(intervals(lm3))
 abline(v=df[min(x),1],col="red",lty=2) #printing x and finding the minimum TRUE row number
 abline(v=df[max(x),1],col="red",lty=2) #printing x and finding the maximum TRUE row number
@@ -196,3 +207,5 @@ abline(v=64.241,col="darkgreen",lty=3) #taken from the LME fits below
 abline(v=93.016,col="darkgreen",lty=3) #taken from the LME fits below
 legend("topright",c("ML Beta Value","Profile 95% CI","LME 95% CI"),col=c("red","red","darkgreen"),lty=c(1,2,3))
 ```
+
+Overall, the confidence intervals (CI) between the two methods are very similar with the profile 95% CI of $\beta$ at 66.8–90.4 and the ‘LME’ 95% CI of $\beta$ at 64.2– 93.0. The `lme()` 95% CI are slightly wider than the likelihood profile 95% CI. In part, this is because the ‘LME’ confidence intervals are obtained from the variance-covariance matrix from all parameters (based on the diagonals of the inversed Hessian matrix +/- 1.96) rather than uncertainty in just one parameter, iteratively - but it may also be because the parameter is indeed *not* asymptotically normal.
