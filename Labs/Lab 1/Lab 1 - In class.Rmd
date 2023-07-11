@@ -6,24 +6,545 @@ date: "2023-06-19"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+library(tidyverse)
 ```
 
-## R Markdown
+In this introductory lab, we're going to try to level the playing field and make sure everyone is comfortable with using R before getting into any of the stats we will be covering in this course. If this lab feels way too easy for you, enjoy your fleeting moment of peace! If it feels way too challenging, fear not! We don't expect you to immediately figure out everything on your own - talk to your peers and instructors, ask lots of questions, and take the time you need to make sure you understand these fundamentals.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+By the end of this lab, we want you to feel comfortable with the following:
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+* How RStudio works
+* How R stores different types of information (e.g., data frames, variables, lists, etc.)
+* How to read in, wrangle, and summarize data
+* How to plot
+* How to loop through data
+* How to make your own functions
 
-```{r cars}
-summary(cars)
+One thing you'll notice about R is that there are nearly always multiple ways to do the same thing. Many people have strong opinions on which of these ways is the "best" way to approach a problem - especially when it comes to the basics. A lot of these people fall into one of two camps: Team Base R and Team Tidyverse. Consider these two approaches different "dialects" of the language of R. They vary in both their "grammar" (i.e. how you construct "sentences") and in their "verbs" (i.e. functions). Base R is closer to true programming and therefore very useful to learn. It is often faster, more reliable for developing your own packages, and sometimes your only option if you're working on niche stuff! But it's also very unintuitive if you've never written code before. The tidyverse on the other hand, is a collection of packages (including dplyr, ggplot2, readr, etc.) that come with a set of pre-made functions that are often much more intuitive for beginners to learn. Writing code in the tidyverse feels more like writing sentences in English! The "verbs" (functions) have intuitive names and it's ideal for data manipulation and making beautiful plots.
+
+In these labs, feel free to code however feels most natural to you. We will be teaching a mix of both of these styles since we see a lot of value in each. You will never be penalized for solving a problem with a different approach than what we show in the labs! Just keep in mind that if you take a completely different approach than either of us, it may be more difficult for us to help you troubleshoot (e.g., Hannah plots pretty much exclusively using the tidyverse's ggplot, so may cry if you need her help solving a base plot problem).
+
+### **RStudio**
+
+RStudio (which is being rebranded as "Posit") is the graphical user interface we'll be using in this course (and the one most ecologists use in their day-to-day work). It's a very handy way to run R because it helps you keep your scripts organized, keep track of what's in your environment, and organize your workflow. More advanced coders often prefer working outside of RStudio (in the original R interface or with different text editors), but for the work we're doing in this course and for most graduate work, RStudio is ideal.
+
+Your RStudio window is split into four panes that you can rearrange how you'd like: 
+
+1. The first is the **Console**. The console (or command line) is what you'd see if you just opened R without RStudio. If you type in code in the console and hit enter, it will execute. Easy! But usually, to make our work reproducible and to be able to modify and rerun things, we use scripts to store our code instead of writing directly in the console. 
+2. If we open a script, it will show up in our **Source Editor** pane. Here we can have scripts for R code, RMarkdowns, and Stan code (among many other types!). For your labs, make sure you create a new R script by selecting the new script button at the top left corner of the RStudio window. To easily send code from your script to the console to be executed, you can select the line of code you want to run and hit Ctrl+Enter on a PC or Cmd+Enter on a Mac.
+3. Any time you execute code in the console that creates a data object, it will appear in your **Environment** tab. Here you can explore the structure and class of the various dataframes, lists, and other objects you create. This pane is super handy for keeping track of what you've created. 
+4. Finally, the last pane has several different tabs. The **Files** tab will show you all of the files in your current working directory, which you can navigate in and out of to open various scripts or other files. The **Plots** tab will show you any plots you've created. The **Packages** tab will show you which packages you have downloaded onto your computer, as well as which versions you have for each and which are currently loaded in your session. The **Help** tab is where you can find more details about how different functions work. You can look up this info by searching in the tab, or by typing ?function_name in the console.
+
+
+##### **Hot tip: Never save your workspace between sessions!**
+When you open RStudio, your **Environment** pane should always be empty. It's tempting to want to save it, but you always want to make sure that you're starting fresh each time you open R. Using a script to store your code means that you'll always be able to recreate the objects in your environment anyways! The reason we want to start fresh is that if you create an object in a previous session but then remove or modify that code, you don't want that object to remain in your workspace. You could accidentally use that object in a different line of code - and if someone else tried running your script on their computer, it wouldn't work for them like it does for you. That's bad! 
+
+**Before you do anything else, go to Tools --> Global Options and set "Save workspace to.RData on exit" to "Never" and uncheck "Restore .RData into workspace on startup."**
+You can also make sure your environment is completely empty by running the following command:
+```{r clear, eval = FALSE}
+#rm(list = ls())
 ```
 
-## Including Plots
+### **RStudio Projects**
+If you have coded in R much or seen other people's code, you might be familiar with the need to set a working directory. Essentially, every time we open a session in R, we need to tell it where to hang out in our computer's file directory so we can access our data or tell R where to save our figures and outputs. Often, you'll see this done using the set working directory function:
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r setwd, eval = FALSE}
+setwd("/Documents/location_of_folder_we_want_to_set_working_directory_to")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The issue with this approach is that if we're sharing files with other people or working collaboratively with coauthors on Github, everyone's file path will be different. To work around this issue, we use RStudio Projects, which are files that end in ".Rproj". When you open this file, RStudio will automatically set the working directory to the location of the file. This way, if you organize all your scripts and data into the same folder as your .Rproj file (or subfolders within it), you can share the entire folder with another collaborator and they can run it on their computer without needing to change any of the file paths. To create a new R project in an existing folder, you can select the RStudio icon at the top right of your RStudio window, select "New Project" and follow the prompts. For this course, we are keeping everything organized in the `bmsc-emd` Github repository, so we'll be using a single .Rproj file for the whole course.
+
+Make sure to open the `bmsc-emd.Rproj` file before running any of our code and save any new scripts to the `bmsc-emd` folder on your computer. To make sure you're working within the project, you can look for the "bmsc-emd" name in the top right corner of the RStudio window, or check the working directory with the following line of code:
+
+```{r getwd, eval=FALSE}
+getwd()
+```
+##### **Hot tip: RMarkdown files will change the working directory to the location of the `.Rmd` file, even if you have a project open**. 
+So a script you create in the `Labs --> Lab 1` folder will default to a working directory of the `bmsc-emd` folder, while the `Lab 1 - In class.Rmd` file will default to a working directory of `bmsc-emd/Labs/Lab 1`. We avoided this by running the `knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())` line at the top of our file.
+
+```{r basic script}
+df <- read.csv("Data/palmer_penguins_data.csv")
+```
+
+### **R Basics**
+
+##### **Variable structures and types**
+
+Different objects/variables get stored and used in different ways in R. We can create new objects using the assignment arrow `<-`:
+
+```{r structures, results = 'hide'}
+a <- 1
+a
+str(a) #a is just a number
+
+b <- 2
+a + b
+ab <- a + b
+str(ab) #ab is also a number, since it's the result of the addition of two other
+#numbers
+
+char1 <- "sea cucumber"
+str(char1) #a character since it's in quotes
+char2 <- "2"
+str(char2) #also a character because we put it in quotes
+```
+
+Above, each of our variables is just a single number or character, but often we want to store and work with multiple individual bits of data at the same time. The simplest way we can do this is with a **vector**. Vectors are just a sequence of elements that all share the same class:
+
+```{r vectors, results='hide'}
+vec <- c(4,5,6)
+vec
+str(vec)
+```
+
+Note that operations you perform on vectors (or matrices, which we will cover later) are done to each element of the vector separately:
+
+```{r vector operations, results = 'hide'}
+vec + 1
+vec^2
+```
+
+The one important point to note about vectors is that every item within the vector must be the same class (e.g., numeric, character, etc.). We'll get into this more below. If you want to create an object that has different classes of items within it, we can use a list instead:
+
+```{r lists, results = 'hide'}
+list1 <- list(1, "one", 2)
+str(list1)
+```
+
+You'll notice that within each variable, data can be stored in a number of ways:
+
+* **character**: literally anything can be coerced into a character, since it is just a string of text! When reading in data, R will assume that any column you have that isn't entirely numeric or TRUE/FALSE is a character. Any objects you create with quotation marks will be treated as a character too (even if the quotation marks are around a number!).
+* **numeric**: any numbers, including integers and double precision floating point.
+* **double**: a subset of numeric - any number that isn't explicitly coded as an integer.
+* **integer**: a subset of numeric - a number without decimal places. Note though that R doesn't actually recognize all numbers without decimal places as integers - if you want it to do so, you need to type an "L" after the number (e.g., R will recognize `2L` as an integer but not `2`).
+* **factor**: similar to character, but every unique entry is assigned a level. R actually treats these levels as integers under the hood (even though each level may look like a character to us), which is helpful for when we're modelling with variables that aren't numeric. You almost always have to tell R explicitly that you want to treat an object as a factor instead of a character.
+* **logical**: TRUE or FALSE.
+
+```{r types, results = 'hide'}
+a <- 1
+class(a)
+
+b <- 2
+ab <- a + b
+class(ab)
+
+vec <- c(4,5,6)
+class(vec)
+
+vec2 <- c("sea", "cucumbers", "rule")
+vec2
+class(vec2)
+
+vec3 <- as.factor(vec2)
+vec3
+str(vec3)
+class(vec3)
+
+vec4 <- c("fish", "suck", NA)
+str(vec4)
+is.na(vec4)
+```
+
+##### **Data frames**
+
+Now that we know the basics, we can move on to the slightly more complex data structures that we use most often when working with ecological data: data frames. A data frame is like the format of data you have when you input tables into Excel: a row of column names at the top, with each column representing a different variable you have information on. Every row represents a single observation from your data set.
+
+```{r loading data, results = 'hide'}
+df <- read.csv("Data/palmer_penguins_data.csv")
+#we can check out what our data frame looks like with the following commands:
+head(df, 5) #top few rows
+tail(df, 5) #bottom few rows
+rownames(df) #just row names
+colnames(df) #just column names
+#View(df) #open entire data frame in new window
+str(df) #look at the structure of each column
+class(df) #look at the class of the whole data frame
+```
+
+We're going to look more into how we work with this type of object a little later.
+
+##### **Matrices**
+
+A matrix looks very similar to a data frame but is structured a little differently under the hood. R treats data frames as if each column is its own separate vector - this means we can have a whole bunch of types of data in the same data frame (e.g., some columns can be numeric, while others are characters). A matrix on the other hand still has rows and columns, but all of the data have to be of the same class. We can coerce a data frame into a matrix, but it will convert all of the data to the same class:
+
+```{r matrices, results = 'hide'}
+mat <- as.matrix(df)
+str(mat)
+
+#or we can create our own matrix from scratch:
+new_mat <- matrix(1:9,nrow=3,ncol=3)
+new_mat
+
+new_mat2 <- matrix(1:9,nrow=3,ncol=3,byrow=TRUE)
+new_mat2
+```
+
+Here, even though some of our columns are numeric, they are all converted to characters! We'll be using matrices a lot in this course, because they work nicely with Stan.
+
+##### **Indexing**
+
+One of the most important things we need to know how to do with vectors, data frames, and matrices is index - to be able to call on specific rows, columns, or individual cells. The most consistent way across data types is to use square brackets and to specify the row/column numbers:
+
+```{r indexing, results = 'hide'}
+vec[1] #first value of vector
+vec[2] #second value of vector
+
+df[1,1] #single value from the first row, first column
+df[1,] #all of the first row in a "data.frame" format
+df[,1] #all of the first column in a vector format
+
+mat[1,1] #single value from the first row, first column
+mat[1,] #all of the first row in a vector format
+mat[,1] #all of the first column in a vector format
+
+#note that the only major difference between indexing data frames and matrices
+#shows up if you don't include a comma
+df[1] #all of the first column in a "data.frame" format
+mat[1] #single value in the first position of the matrix - while matrices are
+#like data frames, where each cell can be identified by a unique combination of 
+#row number and column number, we can also call on a unique cell by specifying
+#a single number (which starts at 1 in row 1, col 1 and continues down the 
+#column until the end, and carries on at the start of the next column). To make
+#your life easier, stick to indexing using the row, col system!
+
+#to select multiple columns or rows:
+df[1:3,]
+df[,2:5]
+df[c(1,4),]
+#if the columns are named, we can also call on those names directly!
+df[,"species"]
+df[,c("species","island")]
+
+#and we can remove rows/columns instead of selecting them!
+df[,-1]
+df[,-(1:5)]
+
+#for lists, we have to use two sets of square brackets
+list1[[1]] #first item in the list
+list1[[2]] #second item in the list
+#if elements of a list are named, you can access them with the name in quotes
+#like in the df example above.
+```
+
+The other way to identify specific columns is using the `$` operator:
+```{r, dolla sign, results = 'hide'}
+df$species
+df$bill_length_mm
+```
+
+##### **Logical statements**
+
+Another important skill we need to have is to be able to test whether an object meets certain conditions we're interested in. For instance, we might want to know whether two objects are the same, or which rows of a column are greater than a certain value. Here are the operators we'll use most often to do this:
+
+* `==`: "Is the left side equal to the right side?"
+* `!=`: "Is the left side not equal to the right side?"
+* `>=`: "Is the left side greater than or equal to the right side?"
+* `<=`: "Is the left side less than or equal to the right side?"
+* `>`: "Is the left side greater than the right side?"
+* `<`: "Is the left side less than the right side?"
+* Any function starting with "is", such as `is.character()`, `is.na()`, `is.numeric()`
+
+##### **Hot tip: = and == are different things!**
+A single equal sign is a command - we are telling R that something is equivalent to something else. This is similar to using the assignment arrow `<-`. A double equal sign is a question - we are asking R if two things are equal to one another. 
+
+All of the operations listed above are questions like this. We can combine mulitple questions with the `|` (or) and `&` (and) symbols. When R answers the question, it will return a TRUE or FALSE value. For objects with multiple rows/columns, you can only make these comparisons with other objects with the same dimensions. The output will be one TRUE/FALSE value for each individual cell comparison. 
+
+```{r logicals, results = 'hide'}
+vec==vec2  #Is each cell in vec equal to the corresponding cell in vec2?
+vec3==vec4 #Is each cell in vec3 equal to the corresponding cell in vec4?
+
+vec5 <- c(1,2,3)
+vec5>vec #Is each cell in vec5 greater than the corresponding cell in vec?
+
+g <- 4
+h <- 4
+i <- 5
+
+g==h #is g equal to h?
+g==i #is g equal to i?
+g==h & g==i # is g equal to h AND to i?
+g==h | g==i # is g equal to h OR to i?
+
+g!=4 # is g not equal to 4?
+g!=5 # is g not equal to 5?
+```
+
+### **Manipulating data**
+
+So far, we've explored how variables (i.e., our "objects") are structured in our language of R. **Functions** are the "verbs" (i.e., the actions) in this language. Anything in R that is followed by parentheses is a function! So in our examples above, `class()`, `str()`, and `c()` are all functions that act on our variables. Some functions take a single input (e.g., `class()` takes a object and tells you its class attribute), while others have multiple **arguments** that specify what exactly you want the function to do. 
+
+We'll use functions in virtually everything we do in R, but some of the most important ones we use regularly are those that allow us to clean and manipulate our data. Some of the common things we need to do are:
+
+* Making new columns based on calculations from existing columns
+* Subsetting data
+* Checking for spelling issues
+* Looking for NAs
+* Filtering by specific values of variables
+* Joining together different datasets
+* Calculating summary statistics
+
+##### **Hot tip: once you've entered your data, never open Excel again.**
+It can be tempting to do any/all of these steps in Excel, but it is always best practice to leave your raw data alone once you've entered it. When you code your changes to your data, you have a paper trail of everything you did, which means you can go back and check your work, make changes, and share the steps with others. This is great for reproducibility!
+
+If we want to subset our data, we have to rely on those logical statements we talked about before. In base R, we use square brackets to subset our data directly by the logical 'question', while in the tidyverse, we ask the logical 'question' inside of the `mutate()` function.
+
+```{r filtering, results = 'hide'}
+#example: remove all NAs from one column
+#base R versions
+no_nas <- df[complete.cases(df$sex),]
+no_nas <- df[!is.na(df$sex),] # the "!" means "not"
+#tidyverse versions
+no_nas <- df %>% 
+  filter(complete.cases(sex))
+no_nas <- df %>% 
+  filter(!is.na(sex))
+
+#example: select penguins from only one island
+torgersen <- df[df$island == "Torgersen",]
+torgersen <- df %>% 
+  filter(island == "Torgersen")
+```
+
+Sometimes, we want to classify our data based on certain conditions. We can use these logical statements for this too! For instance, we can make a new column in our data frame to classify penguin weight classes:
+
+```{r conditional stuff, results = 'hide'}
+#base R version
+df$weight_class <- ifelse(df$body_mass_g >= 5000, "chonky", "not_chonky")
+
+#tidyverse version
+df <- df %>% 
+  mutate(weight_class = case_when(body_mass_g >= 5000 ~ "chonky",
+                                  TRUE ~ "not_chonky"))
+```
+
+We have a few options if we want to apply multiple functions to the same piece of data. Let's say we want to remove all of the NAs from bill length column of our data frame, and then subset the data to include only the bill_length_mm and island columns. We first could simply create a new object for every step we want to complete:
+
+```{r multiple functions step by step, results = 'hide'}
+df_noNAs <- filter(df, !is.na(bill_length_mm))
+df_reduced <- select(df_noNAs, bill_length_mm, island)
+```
+
+This can get annoying if we have a lot of steps though! This will fill up our environment with a whole bunch of objects we don't need, and we might start to confuse ourselves with the many names we have to come up with. We could also do it as a single line of code, by putting functions within functions:
+
+```{r multiple functions within, results = 'hide'}
+df_reduced <- select(filter(df,!is.na(bill_length_mm)), bill_length_mm, island)
+```
+
+That kind of code structure can be really unintuitive though, since our brains aren't generally used to reading from inside out. One solution to this issue is the **pipe `%>%`**. The pipe is essentially the word "then" - it let's us tell R that we want to do step one *then* step two, so that we can write our code in an order that's a little more similar to how we think in English. We can use it to link different functions in a single sentence, or "pipeline". We'll have to load the `tidyverse` library to use the pipe. (Note: there is also a base R pipe `|>` that's being used more and more these days! The grammar of this pipe is apparently very similar to the tidyverse one, but since I don't know the subtle differences, we're going to stick to teaching the tidyverse one in this tutorial. Feel free to use the base R pipe if you know how!).
+
+```{r multiple functions tidy, results = 'hide'}
+df_reduced <- df %>% 
+  filter(!is.na(bill_length_mm)) %>% 
+  select(bill_length_mm, island)
+```
+
+##### **Hot tip: avoid accidental recursion!**
+Whenever possible, try to write your code in a way where if you reran the same line of code multiple times, you'd always get the same output. If you don't, your results might change if you rerun some parts but not others! People most often run into this issue when manipulating their data prior to plotting or analysis. Some helpful tricks to avoid running into accidental recursion problems include:
+
+* Always make new variable names for modified data rather than writing over original ones
+* Make sure you aren't accidentally using the same variable name for more than one thing
+* Run your data manipulation in a single block at the beginning of your script rather than making additional modifications as you go, so it's easier to catch issues
+
+```{r recursion, eval = FALSE, results = 'hide'}
+#Bad examples:
+df$bill_length_mm <- log(df$bill_length_mm)
+df <- df %>% 
+  mutate(bill_length_mm = log(bill_length_mm))
+```
+```{r avoid recursion, results = 'hide'}
+#Good examples:
+df$logged_bill_length <- log(df$bill_length_mm)
+df <- df %>% 
+  mutate(logged_bill_length = log(bill_length_mm))
+```
+
+### **Plotting**
+
+Note that with base plot, you have two options for listing your variables. You either write it as `plot(x_variable, y_variable)` or `plot(y_variable ~ x_variable)`. To be safe, it's good practice to explicitly write out which arguments your inputs correspond to (e.g., `plot(x = x_variable, y = y_variable)`). However, knowing the order that a function expects arguments can make writing code a little quicker so it's handy to know.
+
+```{r base plot, results = 'hide'}
+#note that this:
+plot(df$bill_length_mm, df$bill_depth_mm)
+#is the same as this:
+plot(x = df$bill_length_mm, y = df$bill_depth_mm)
+#but not this:
+plot(y = df$bill_length_mm, x = df$bill_depth_mm)
+#that's because functions are written with the arguments in a certain order, so
+#if we don't specify which arguments our inputs are supposed to represent, R 
+#assumes we're inputting them in the order they're written in the function 
+#itself. Remember, you can use ?function_name() in the console to see what the
+#arguments for a function are.
+```
+
+Base plot also has some handy functions to quickly make some types of common plots:
+
+```{r base plot special cases, results = 'hide'}
+hist(x = df$bill_length_mm)
+boxplot(df$bill_length_mm ~ df$species)
+```
+
+But just note that boxplots are a garbage type of plot, and please don't make them.
+
+We can make our basic plot a lot more interesting by adding in additional layers of information:
+
+```{r cool plot}
+plot(bill_length_mm~bill_depth_mm,data=df[df$species=="Adelie",],xlim=range(df$bill_depth_mm,na.rm=TRUE),ylim=range(df$bill_length_mm,na.rm=TRUE),col="tomato",pch=16)
+points(df$bill_depth_mm[df$species=="Chinstrap"],df$bill_length_mm[df$species=="Chinstrap"],col="limegreen",pch=16)
+points(df$bill_depth_mm[df$species=="Gentoo"],df$bill_length_mm[df$species=="Gentoo"],col="dodgerblue",pch=16)
+abline(lm(bill_length_mm~bill_depth_mm,data=df[df$species=="Adelie",]),col="tomato")
+abline(lm(bill_length_mm~bill_depth_mm,data=df[df$species=="Chinstrap",]),col="limegreen")
+abline(lm(bill_length_mm~bill_depth_mm,data=df[df$species=="Gentoo",]),col="dodgerblue")
+
+```
+
+If you end up wanting to save a plot using base R `plot()` function, then you'll use the `jpeg()`, `pdf()`, `tiff()`, or `png()` functions. These functions take arguments on the *width*, *height*, *units*, and *resolution* of the figure (except for pdf). Generally, I recommend using the argument `compression="lzw"` in the `tiff()` function to compress your high-resolution figures to avoid large file sizes.
+
+If you already use base plot to make figures or if the functions feel more intuitive to you, that's great! Keep using them. If however, you don't have your heart set on base plot, I suggest giving ggplot a try. 
+
+`ggplot()` seems a little intimidating at first but is super formulaic so very easy to work with once you get the hang of it (and it's way less of a pain to try to save your figures!). With ggplot, we build layers onto our figures using the `+` operator instead of running multiple lines of code. We always start with the same `ggplot()` function, where we typically tell ggplot what dataset we're working with and which variables we want to plot:
+
+```{r ggplot, warning = FALSE, results = 'hide', eval = FALSE}
+ggplot(data = df, aes(x = bill_length_mm, y = bill_depth_mm)) 
+```
+
+Note that any time we want to define some aspect of our plot (e.g., the x- and y-axes, the colours of the points, etc.) by some of our data, we always put that in the "aesthetics" function, `aes()`. If we want to do something to the plot independent of our data (e.g., make all the points the same colour), we define that outside of the `aes()` function.
+
+From here, we add on different "geoms" or layers to the plot. Unless we tell ggplot otherwise, it assumes that anything we define in the `ggplot()` function (e.g., the x and y variables or the dataframe) gets passed on to all the other geoms:
+
+```{r ggplot2, warning = FALSE, results = 'hide'}
+ggplot(data = df, aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point() #this geom will plot our points using the df, x, and y defined above
+```
+
+From here, we can get creative! We can change the plot theme or individual components of it (like font sizes, background colours, or axis labels). Below is an example of a more complicated plot - try commenting out different lines to see what each individual one does!
+
+```{r ggplot cool, results = 'hide', warning = FALSE, message = FALSE}
+cool_plot <- ggplot(data = df, aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point(aes(colour = species)) +
+  geom_smooth(aes(colour = species), method = 'lm') +
+  theme_classic() +
+  labs(x = "Bill length (mm)", y = "Bill depth (mm)", 
+       colour = "Species", title = "A beautiful plot")
+cool_plot
+```
+
+To save, all you need is the `ggsave()` function. Within it, you can specify what type of file you want to save the image as, and information about the dimensions and resolution:
+
+```{r ggsave}
+#ggsave("Labs/Lab 1/cool_plot.pdf", cool_plot, height = 5, width = 7)
+```
+
+### **Loops**
+
+Sometimes, we need to iterate an action over many elements (e.g., rows or columns of a dataset, elements of a list, levels of a variable, etc.). One straightforward way to do that is with a **for loop**. 
+
+To make a for loop, we need a few components:
+
+* A sequence of numbers, objects, or characters that we want to iterate over
+* A set of actions to perform
+* An output
+* An optional place to store this output
+
+```{r basic loops, results = 'hide'}
+#print the numbers 1-10
+for (i in 1:10){
+  print(i)
+}
+#note that these only show up in the console since we didn't save them anywhere
+
+for_loop_output <- NULL #create a blank object to store our output in
+#fill elements 1-10 of this object with the numbers 1-10
+for(i in 1:10){
+  for_loop_output[i] <- i
+}
+for_loop_output
+
+#make new columns in our dataset, by filling them out one row at a time
+for(i in 1:nrow(df)){
+  df$fun_new_col[i] <- i 
+  df$other_fun_col[i] <- df$flipper_length_mm[i]/df$body_mass_g[i]
+}
+```
+
+Let's try something a little more complicated: a loop within a loop! Let's say we want to find the mean body mass of each penguin species on each island. We'll provide you the code for the mean mass for each species across islands, and it'll be your job to try to make a loop within a loop to split these mean masses up by island:
+
+```{r test loop, results = 'hide'}
+mass_means <- NULL
+counter <- 1
+for(i in unique(df$species)){
+    mass_means[counter] <- mean(df$body_mass_g[df$species==i],na.rm=TRUE)
+    names(mass_means)[counter] <- i
+    counter <- counter + 1
+}
+```
+
+In some cases, doing complex looping like this is necessary, so it's important to learn! But for doing simple calculations like means on different groups, there are often a lot of great functions that already exist. For instance we could have done this instead:
+
+```{r summarize, results = 'hide'}
+mass_means2 <- df %>% 
+  group_by(species, island) %>% #group_by tells R that we want all the following steps done individually on each group
+  summarize(mean = mean(body_mass_g, na.rm=TRUE)) %>% #summarize creates a new column in our data frame that does the calculation we specify
+  ungroup() #this line isn't necessary here, but is good practice to run after a group_by() line in case you do any further operations on this data frame
+```
+
+### **Custom functions**
+
+Finally, to be able to code effectively, we need to learn how to make our own functions! When we create our own functions, we're essentially building a recipe for R to follow to do something useful. If you have to copy and paste chunks of your code more than a couple times, it's probably a good idea to make a function for yourself instead. This is because if you copy and paste your code a bunch but make a change to one chunk, you're likely to forget to make the same changes in every other chunk. Whereas if you have your code written as a function, you only need to make the change once!
+
+To make a function, we need a few components:
+
+* A name that we assign to the function
+* A list of arguments that we need to feed into the function for it to be able to run (e.g., if we want to apply our function to a column of a data frame, we need to define both the data frame and the column name in the arguments section)
+* A series of steps for the function to follow
+* An output (note that if you don't specify this, custom functions will always return the result from the last line of code within it)
+
+Let's say we want to plot a histogram of a log-transformed column of our data:
+
+```{r simple function}
+custom_function <- function(data, column){
+  data$log_col <- log(data[[column]])
+  ggplot(data, aes(x = log_col)) +
+    geom_histogram()
+}
+
+custom_function(data = df, column = 'bill_length_mm')
+```
+
+If we wanted to run this function on multiple columns we have a few options for how to do this! We could copy and paste it, we could run a for loop, or we could use an "apply" statement to apply it to multiple arguments:
+
+```{r multiple functions, results = 'hide', eval = FALSE}
+#copy paste
+custom_function(data = df, column = 'bill_length_mm')
+custom_function(data = df, column = 'bill_depth_mm')
+custom_function(data = df, column = 'flipper_length_mm')
+
+#for loop
+cols <- c("bill_length_mm", "bill_depth_mm", "flipper_length_mm")
+custom_output_loop <- NULL
+for(i in 1:length(cols)){
+  custom_output_loop[[i]] <- custom_function(data = df, column = cols[i])
+}
+
+#access the output by specifying which plot you want
+custom_output_loop[[1]]
+#or all of them:
+custom_output_loop
+
+#apply statement
+cols <- c("bill_length_mm","bill_depth_mm", "flipper_length_mm")
+custom_output_apply <- lapply(X = cols, FUN = custom_function, data = df)
+#note that since our function has two arguments, we specify which one we're 
+#applying the function across with 'X' and any of the arguments that stay 
+#constant with their argument names from our custom function
+
+#access the output by specifying which plot you want
+custom_output_apply[[1]]
+#or all of them:
+custom_output_apply
+```
+
+##### **Hot tip: functions can only recognize arguments that you put between the parentheses!**
+Even if you have an object in your environment with the name of an argument that is in your function, your function won't know that this is the object you want it to use unless you explicitly tell it.
+
+In our example from above, even if we had written `custom_function()` with the argument `df` instead of `data`, we would still have to specify that `df = df` in the function - R wouldn't know to use our object named `df` automatically. 
