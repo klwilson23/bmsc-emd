@@ -1,29 +1,317 @@
 ---
-title: "Lab 1"
+title: "Lab 3: Linear models and Bayesian MCMC"
 output: html_document
-date: "2023-06-19"
+date: "2023-07-05"
+author: "Kyle L. Wilson"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup}
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+library(dplyr)
+library(ggplot2)
+library(mvtnorm)
+library(stats4)
+library(MASS)
+library(coda)
+library(ggplot2)
+library(ggmcmc)
+library(lubridate)
+```
+## Background on the data for this lab
+Sea lice are marine copepods that parasitize salmon, and have been a hot topic over the past decade because of concerns of parasite transmission between farmed and wild salmon. Although sea lice are naturally occurring on wild Pacific salmon, the parasite can overwinter and amplify on salmon farms and then transmit to small and vulnerable juvenile wild salmon, affecting their health and survival (Krkošek et al. 2006). For a review of the ecology of sea lice and salmon in British Columbia, see Krkošek et al. (2010).
+
+This lab uses a published dataset of sea louse abundance on juvenile pink and chum salmon in the Broughton Archipelago, British Columbia (Peacock et al. 2016). The dataset includes details of the parasite species, sex, and stage, and also includes information on the size and health of host fish. Familiarize yourself with this dataset by reading the associated metadata, which can be downloaded under Supporting Information at the following link: http://doi.org/10.1002/ecy.1438 or at Dr. Steph Peacocks github: https://github.com/sjpeacock/Sea-lice-database
+
+Abstract follows:
+The global expansion of aquaculture has changed the structure of fish populations in coastal environments, with implications for disease dynamics. In Pacific Canada, farmed salmon act as reservoir hosts for parasites and pathogens, including sea lice (Lepeophtheirus salmonis and Caligus clemensi) that can transmit to migrating wild salmon. Assessing the impact of salmon farms on wild salmon requires regular monitoring of sea-louse infections on both farmed and wild fish. Since 2001, we have collected juvenile pink (Oncorhynchus gorbuscha) and chum (O. keta) salmon annually at three sites in the Broughton Archipelago in British Columbia, Canada, during the annual juvenile-salmon migration from freshwater to the open ocean. From sampled fish, we recorded counts of parasitic copepodid-, chalimus-, and motile-stage sea lice. We report louse abundances as well as supplementary observations of fish size, development, and health.
+
+## infection and body size
+
+Let's explore a relationship between fish height (as a surrogate for weight) and length.
+
+```{r}
+lice <- read.csv("Data/sealice_fish_data.csv",header=TRUE)
+sites <- read.csv("Data/sealice_site_data.csv",header=TRUE)
+
+lice <- lice %>%
+  group_by(site_id,year,day,month,location,species) %>%
+  mutate(n=n()) %>%
+  ungroup() # this just counts the number of samples per group
+
+lice_data <- merge(lice,sites,by=c("site_id","year","day","month","location"),all.x=TRUE) # merge the lice & the site data
+lice_data <- lice_data %>%
+  filter(species!="sockeye") # omit sockeye from the dataset
+lice_data$p.total <- apply(lice_data[,c(11:25)], 1, sum, na.rm=TRUE) # columns 11-25 are all the parasites, lets sum them up!
+lice_data$infested <- as.numeric(lice_data$p.total>0)
+lice_data <- lice_data[lice_data$year>2010,] # omit the year 2010 because of some sampling concerns.
+#Keep the years for plotting
+years <- unique(lice_data$year)
+lice_data$year <- as.factor(lice_data$year)
+lice_data$date <- as.Date(paste(lice_data$year, lice_data$month, lice_data$day, sep="-"), format="%Y-%m-%d")
+lice_data$week <- lubridate::week(lice_data$date)
+lice_data <- lice_data[complete.cases(lice_data$height,lice_data$length,lice_data$infested),]
+# length (from the tip of the snout to the fork in the tail) and height (the maximum body depth).
+# height can be assumed to be a proxy for weight here
+#Fit model with categorical interaction between length and infested
+fit1<-lm(height ~ length * infested, data=lice_data)
+summary(fit1)
+
+```
+Let's then compare the above interaction model to a model without the interaction between length and infestation. Can we determine which model better explains the data?
+```{r model 2}
+fit1b <- lm(height ~ length, data=lice_data)
+summary(fit1b)
 ```
 
-## R Markdown
+## Model comparisons
+### Likelihood ratio test
+One version of model comparisons is a likelihood ratio test (LRT). Likelihood ratio tests are used to compare the goodness of fit of two hierarchically nested models which is used to evaluate whether or not adding complexity to the model (i.e., adding more parameters) makes your model significantly more accurate. "Nested models” simply means that the complex model differs only from the simpler (or “nested”) model by the addition of one or more parameters (often additional covariates or interactions). In summary, the LRT tells us if it is beneficial to add parameters to our model, or if we should stick with our simpler model. In their most basic form, the hypotheses for the LRT are:
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+H0: You should use the nested model.
+Ha: You should use the complex model.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Thus, if you reject the H0, you can conclude that the complex model is significantly more accurate than the nested model, and you would choose to use the complex model. If you fail to reject the H0, you can conclude that the complex model is NOT significantly more accurate than the nested model, so you would choose to use the nested model instead.
 
-```{r cars}
-summary(cars)
+The test statistic for the LRT follows a chi-squared distribution with degrees of freedom equal to the difference in the number of free parameters from the nested models. The equation for the test statistic follows: $\text{test statistic} = [-2ln(\mathcal{L}_{\text{simple model}})] - [-2ln(\mathcal{L}_{\text{complex model}})] ~ \chi_{d.f.=1}^2$ 
+
+with the associated R code as:
+
+$\text{pchisq(your test statistic here, df=(npar(M1) - npar(M2)), lower.tail=FALSE)}$
+
+```{r likelihood ratio tests}
+#Use LRT to compare the models
+#Report the loglikelihoods, the test statistic and the p-value
+#This is the logLik, not the negative loglik
+loglik1 <- logLik(fit1)[1]
+loglik1b <- logLik(fit1b)[1]
+
+#Simple model - complex model 
+teststat <- (-2*loglik1b) - (-2*loglik1) # twice the negative log likelihood is the deviance
+pval <- pchisq(teststat, df = 2, lower.tail = FALSE)
+print(pval)
 ```
 
-## Including Plots
+What can we conclude about the model comparisons using LRT? Afterwards, let's see if we would come to the same conclusion using AIC.
 
-You can also embed plots, for example:
+AIC is a statistical metric used in information theoretic approaches that asks the question: what is the relative
+information loss if different models are used to approximate reality? This is based on the out of sample deviance (twice the negative log-likelihood) with an additional penalty to favor simpler models (twice the number of parameters). As AIC is based on the likelihood calculation, there are similarities between Maximum Likelihood and Bayesian approaches in these criteria. In the Bayesian calculation: we will use approximate leave-one-out cross-validation (loo-cv). But for now, let's try AIC. Generally speaking, the $min(AIC)$ score is the best-supported model. However, models that differ in their AIC ($\Delta AIC$) calculations by 0-2 perform similarly, $\Delta AIC$ of 4-7 have considerably less support, and $\Delta AIC$ >10 have essentially no support.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+AIC and likelihood ratio test (LRT) serve different purposes. AIC tells you whether there is support to have a richer model when your goal is to approximate the underlying data generating process the best you can in terms of Kullback-Leibler distance (a statistical measurement commonly used to quantify the difference between one probability distribution from a reference probability distribution).
+
+By comparison, LRT tells you whether at a chosen confidence level you can reject the hypothesis that some restrictions on the richer model hold (e.g. some elements in the richer model are redundant).
+
+```{r AIC}
+# calculate by hand
+n_par1b <- length(coef(fit1b)) + 1 # the number of coefficients plus the variance term
+n_par1 <- length(coef(fit1)) + 1 # the number of coefficients plus the variance term
+AIC1b <- round((-2*loglik1b + 2 * n_par1b))
+AIC1 <- round((-2*loglik1 + 2 * n_par1))
+delta_AIC <- c(AIC1b,AIC1)-min(c(AIC1b,AIC1))
+(rbind(c("model"="simple","AIC"=AIC1b,"k"=n_par1b,"dAIC"=delta_AIC[1]),c("model"="complex","AIC"=AIC1,"k"=n_par1,"dAIC"=delta_AIC[2])))
+# calculate using R's built in function
+print(AIC(fit1,fit1b))
+```
+What model would you pick based on AIC? Congratulations! You can do Frequentist based model selection.
+
+## Sampling the Bayesian posterior using MCMC
+
+Let's repeat this analysis but with a Bayesian approach using Markov Chain Monte Carlo. In this section of the lab, we will build our own MCMC sampler, run multiple chains, calculate convergence statistics, run a 2nd model, and compare these models using 'loo-cv'.
+
+We will assume that the $\sigma_E$ of this relationship is 1.1924.
+
+```{r make the dataset}
+Xvar <- model.matrix(height~length * infested,data=lice_data)
+coefs <- 1:ncol(Xvar)
+names(coefs) <- names_coefs <- colnames(Xvar)
+n_pars <- length(coefs)
+
+mcmc_covar <- readRDS(file="Labs/Lab 3/in_class_var_covar.rds") # base the multivariate jump function on the variance-covariance output from the frequentist model
+beta_init <- readRDS(file="Labs/Lab 3/in_class_inits.rds")
+
+data <- list(N=length(lice_data$height),height=lice_data$height,Xvar = Xvar,npars=n_pars)
+sd_obs <- 1.1924
+```
+### create the function for the posterior sampling with MCMC
+Markov Chain Monte Carlo is a combination of two numerical methods: Monte Carlo and Markov Chains. Monte Carlo is a technique for randomly sampling a probability distribution and approximating a desired quantity. Monte Carlo methods are aimed to efficiently draw samples from the target distribution. We can then we can then estimate the sum or integral quantity as the mean or variance from the samples that are drawn.
+
+There are many Markov Chain Monte Carlo algorithms that propose different ways of constructing the Markov Chain when performing each Monte Carlo sample, but lets construct one of our own. We will proceed by constructing two functions: the first is GetPosterior, which calculates the posterior probability.
+
+```{r posterior density function}
+
+GetPosterior <- function(beta,data)
+{
+  Xvar <- data$Xvar
+  prior.height <- -dnorm(beta[1],mean=10,sd=5,log=TRUE)
+  prior.beta <- -dnorm(beta[2:ncol(Xvar)],mean=0,sd=1,log=TRUE)
+  pred <- Xvar %*% beta # the %*% does matrix multiplication and summations
+  
+  nll <- -dnorm(data$height,pred,sd=sd_obs,log=TRUE) # presume sigma is 1.1924, but this is typical also a parameter to be estimated
+  posterior <- sum(sum(nll),sum(prior.beta),sum(prior.height))
+  ifelse(is.na(posterior),posterior<-1e6,posterior<-posterior) # this just adds a little penalty term
+  return(list(posterior=posterior,dev=2*sum(nll),nll=nll))
+}
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Now, we need to code up an MCMC sampler. This isn't trivial and the code below is more serving as a learning tool to show you what softwares, like JAGS, BUGS, or Stan are doing in the background. Recall that sampling a posterior is somewhat analogous to having a hiker describe the shape of a mountain using GPS coordinates and elevation (the posterior probability), with a bit of a rule to favor higher points (we like a good view).
+
+MCMC sampling begins at a random point - the initial values - which is where we begin our hike. Our hiker, known as "Chain 1", then randomly jumps to a new point at some distance away from where they previously were. When they jump to a 2nd point, they ask themselves "should I stay here? Or should I go back to where I was?". The decision to accept the new location is based on an coin flip - heads, they stay where you started, and tails you accept the new point. The probability of heads is based on the relative posterior probability between the two points (i.e., the elevation of the mountain). The hiker begins their jump again from their updated point.
+
+```{r mcmc jump function}
+DoMCMC<-function(beta_init,data,Ndim,covar,Nsim=1000,Nburn=0,Nthin=1,jump,scalar)
+{
+  pb <- txtProgressBar(min=1,max=Nsim,style=3) # this sets up a progress bar for us
+  beta_curr <- beta_init # this labels the current step
+  Get1st <- GetPosterior(beta_curr,data)
+  Fcurr <- -1*Get1st$posterior
+  Deviance <- Get1st$dev
+  Like <- -Get1st$nll
+  Outs <- matrix(0,nrow=(Nsim-Nburn),ncol=(Ndim+2)) # store the parameter coefficients and the posterior + deviance
+  Likes <- matrix(0,nrow=(Nsim-Nburn),ncol=data$N) # store the likelihood for model selection
+  Icnt <- 0
+  covar.new <- covar
+  accept <- 0
+  rate <- c()
+  for (Isim in 1:Nsim)
+  {
+    rate[Isim] <- accept/Isim
+    if(Isim<=Nburn & Isim %% 50 == 0) # this next set of steps simply changes the scalar of the multivariate jump based on the acceptance rate up to this point in time
+    {
+      if(rate[Isim]>=0.30 & rate[Isim]<=0.40)
+      {
+        scalar <- scalar # if the acceptance rate is <40% but >30%, the scalar is fine
+      }else{
+        if(rate[Isim]<0.30)
+        {
+          scalar <- max(0.01,min(1,scalar-0.01)) # if the acceptance rate is <30%, tune the scalar down a bit, with a range of 0.01-1
+        }
+        if(rate[Isim]>0.40)
+          scalar <- min(1,max(0.01,scalar+0.01)) # if the acceptance rate is >40%, tune the scalar up a bit, with a range of 0.01-1
+      }
+    }
+    if(Isim==Nburn){scalar.save <- scalar}
+    covar.new <- covar*scalar
+    beta_next <- as.numeric(rmvnorm(1, mean=beta_curr, sigma=as.matrix(covar.new))) # where are we jumping to next?
+    Get2nd <- GetPosterior(beta_next,data) # whats the posterior sample and probability at the new point?
+    Fnext <- -1*Get2nd$posterior # whats the posterior probability?
+    Dev2 <- Get2nd$dev # whats the deviance?
+    Like2 <- -Get2nd$nll # whats the negative log likelihood?
+    Rand1 <- log(runif(1,0,jump)) # add random noise to the acceptance or rejection
+    if (Fnext > Fcurr+Rand1) # ask: is the new posterior probability greater than the old posterior probability +/- noise
+    {
+      Fcurr <- Fnext # if so: the new location will become our current location
+      beta_curr <- beta_next # replace old values with the new values
+      Deviance <- Dev2
+      Like <- Like2
+      accept <- accept + 1 # store how much we've accepted a new value
+    }   
+    if (Isim > Nburn & Isim %% Nthin == 0) # store some values if we are after the burn-in, thinning some if we need to
+    {
+      Icnt <- Icnt + 1 # update the ith count of the sample
+      Outs[Icnt,] <- c(beta_curr,Fcurr,Deviance) # store the estimated coefficients and the posterior/deviance scores
+      Likes[Icnt,] <- Like # store the likelihood for our 'loo-cv' calculation later
+      # cat("saving",Icnt,"\n") we can print the sample, but Rmarkdown won't like this     
+    }
+    setTxtProgressBar(pb,Isim) # update the progress bar
+  } 
+  return(list(results=Outs[1:Icnt,],accept_rate=rate,scalar.burn=scalar.save,like=Likes)) # return the posterior sample
+}
+```
+## Running the MCMC sampler
+
+Now, run the chain. If you want, you can change up the jump or scalar here. Remember to set the seed here so that we all get to the same answers (more or less). Let's use `set.seed(10072023)`
+
+```{r run mcmc chain 1}
+set.seed(10072023)
+Nsim <- 5e3 # we will keep this relatively short
+burn_rate <- 0.5 # this ist he amount of samples that it allows to burn-in
+Nthin <- 1 # this is the thinning rate - how many samples we discard
+####
+## 1st chain
+####
+jmp <- 1 
+scale <- 0.5
+a <- proc.time();
+Outs <- DoMCMC(beta_init=as.numeric(beta_init),data=data,Ndim=n_pars,covar=mcmc_covar,Nsim=Nsim,Nburn=burn_rate*Nsim,Nthin=Nthin,jump=jmp,scalar=scale)
+(proc.time() - a)/Nsim
+par(mfrow=c(1,1))
+plot(1:Nsim,Outs$accept_rate,type="l",lwd=2,lty=2,xlab="MCMC Chain",ylab="Acceptance Rate")
+
+Output <- matrix(Outs$results,ncol=n_pars+2,byrow=F)  
+MCMC1 <- mcmc(Output) #drop the posterior density, just keep the deviance
+colnames(MCMC1) <- c(names(coefs),"Posterior","Deviance")
+
+```
+Run chain 2 by re-running the above code a 2nd time. Remember to set this to a different set. Let's use `set.seed(11072023)`
+```{r run mcmc chain 2}
+set.seed(11072023)
+jmp <- 1
+scale <- 0.5
+a <- proc.time();
+Outs2 <- DoMCMC(beta_init=as.numeric(beta_init),data=data,Ndim=n_pars,covar=mcmc_covar,Nsim=Nsim,Nburn=burn_rate*Nsim,Nthin=Nthin,jump=jmp,scalar=scale)
+(proc.time() - a)/Nsim
+par(mfrow=c(1,1))
+plot(1:Nsim,Outs2$accept_rate,type="l",lwd=2,lty=2,xlab="MCMC Iteration",ylab="Acceptance Rate")
+Output2 <- matrix(Outs2$results,ncol=n_pars+2,byrow=F)  
+MCMC2 <- mcmc(Output2) #drop the posterior density, just keep the deviance
+colnames(MCMC2) <- c(names(coefs),"Posterior","Deviance")
+
+```
+
+## Merge the chains into a joint posterior distribution
+
+We now have at least 2 independent MCMC chains that sampled our posterior distribution of interest. We need to see if it has passed some diagnostics - these algorithms do a lot of things and its hard to understand their outcomes. So we must interrogate the sampling chains. Generally, this will involves
+- trace plots of the chains (also known as fuzzy caterpillar plots)
+- trace rank plots
+- R-hat convergence measures (i.e., the Gelman-Rubin diagnostic)
+  - Other convergence tests
+- Number of effective samples
+- Divergent transitions (for Stan models, not here)
+
+Based on the below code, ask the question: do you think the chains have converged?
+```{r merge chains and diagnostic plots}
+MCMC_chains <- mcmc.list(MCMC1,MCMC2)
+print(gelman.diag(MCMC_chains))
+gelman.plot(MCMC_chains)
+ggs_Rhat(ggs(MCMC_chains)) # this is a ggplot function that plots the gelman-rubin statistics
+print(heidel.diag(MCMC_chains)) # heidel diagnostic 
+# Graphical diagnostics
+traceplot(MCMC_chains)
+```
+
+Next, we will plot the marginal histograms for each of the parameters.
+```{r posterior distributions}
+posterior <- as.matrix(MCMC_chains)
+# plot histogram of marginal results
+par(mfrow=c(2,2),mar=c(5,4,1,1),omi=c(0.05,0.05,0.05,0.05))
+for (i in 1:n_pars)
+{
+  hist(posterior[,i],main="",xlab=names_coefs[i],col="lightblue")
+  abline(v=coef(fit1)[i],lwd=2,col="red")
+}
+```
+Now, lets make some posterior predictions for an infested and uninfested fish of length 100. This follows similar to Lab 2, but we are using `rnorm()` to generate new random samples, rather than `sample()` to re-sample our posterior.
+
+Below, we generate the posterior predictive distribution (rather than the posterior mean) for the body height of salmon of length 100 mm that are infested and not infested. We then calculate the mean and 95% credible intervals for these distributions and compare their height. Is the effect statistically significant? Do you think the effect of infestation is biologically significant? Why or why not?
+
+Next, we plot the posterior predictive distribution for the body height of an infested salmon from length 25-150mm. We then plot the data for infested salmon over that prediction. Is this model a good fit?
+
+```{r posterior predictions}
+infested_height_ppd <- rnorm(1:nrow(posterior),posterior[,1:n_pars]%*%c(1,100,1,100),sd=sd_obs)
+hist(infested_height_ppd)
+
+uninfested_height_ppd <- rnorm(1:nrow(posterior),posterior[,1:n_pars]%*%c(1,100,0,0),sd=sd_obs)
+hist(uninfested_height_ppd)
+mean(infested_height_ppd);quantile(infested_height_ppd,probs=c(0.025,0.975))
+mean(uninfested_height_ppd);quantile(uninfested_height_ppd,probs=c(0.025,0.975))
+
+body_size <- 25:150
+infested_height_ppd <- sapply(body_size,function(x){rnorm(1:nrow(posterior),mean=posterior[,1:n_pars]%*%c(1,x,1,x))})
+infested_height_mn <- colMeans(infested_height_ppd)
+infested_height_ci <- apply(infested_height_ppd,2,quantile,probs=c(0.025,0.975))
+layout(1)
+plot(body_size,infested_height_mn,ylim=range(infested_height_ci),col=0,xlab="Body size (mm)",ylab="Body height")
+polygon(c(body_size,rev(body_size)),c(infested_height_ci[1,],rev(infested_height_ci[2,])),border=NA,col=adjustcolor("dodgerblue",0.5))
+lines(body_size,infested_height_mn,lwd=2)
+points(Xvar[Xvar[,"infested"]==1,"length"],data$height[Xvar[,"infested"]==1])
+```
