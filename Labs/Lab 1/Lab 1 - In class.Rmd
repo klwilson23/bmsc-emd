@@ -1,6 +1,12 @@
 ---
 title: "Lab 1"
-output: html_document
+output: 
+  html_document:
+    collapsed: no
+    number_sections: yes
+    smooth_scroll: yes
+    toc: yes
+    toc_float: yes
 date: "2023-06-19"
 ---
 
@@ -25,7 +31,7 @@ One thing you'll notice about R is that there are nearly always multiple ways to
 
 In these labs, feel free to code however feels most natural to you. We will be teaching a mix of both of these styles since we see a lot of value in each. You will never be penalized for solving a problem with a different approach than what we show in the labs! Just keep in mind that if you take a completely different approach than either of us, it may be more difficult for us to help you troubleshoot (e.g., Hannah plots pretty much exclusively using the tidyverse's ggplot, so may cry if you need her help solving a base plot problem).
 
-### **RStudio**
+# RStudio
 
 RStudio (which is being rebranded as "Posit") is the graphical user interface we'll be using in this course (and the one most ecologists use in their day-to-day work). It's a very handy way to run R because it helps you keep your scripts organized, keep track of what's in your environment, and organize your workflow. More advanced coders often prefer working outside of RStudio (in the original R interface or with different text editors), but for the work we're doing in this course and for most graduate work, RStudio is ideal.
 
@@ -37,7 +43,7 @@ Your RStudio window is split into four panes that you can rearrange how you'd li
 4. Finally, the last pane has several different tabs. The **Files** tab will show you all of the files in your current working directory, which you can navigate in and out of to open various scripts or other files. The **Plots** tab will show you any plots you've created. The **Packages** tab will show you which packages you have downloaded onto your computer, as well as which versions you have for each and which are currently loaded in your session. The **Help** tab is where you can find more details about how different functions work. You can look up this info by searching in the tab, or by typing ?function_name in the console.
 
 
-##### **Hot tip: Never save your workspace between sessions!**
+**Hot tip: Never save your workspace between sessions!**
 When you open RStudio, your **Environment** pane should always be empty. It's tempting to want to save it, but you always want to make sure that you're starting fresh each time you open R. Using a script to store your code means that you'll always be able to recreate the objects in your environment anyways! The reason we want to start fresh is that if you create an object in a previous session but then remove or modify that code, you don't want that object to remain in your workspace. You could accidentally use that object in a different line of code - and if someone else tried running your script on their computer, it wouldn't work for them like it does for you. That's bad! 
 
 **Before you do anything else, go to Tools --> Global Options and set "Save workspace to.RData on exit" to "Never" and uncheck "Restore .RData into workspace on startup."**
@@ -46,7 +52,7 @@ You can also make sure your environment is completely empty by running the follo
 #rm(list = ls())
 ```
 
-### **RStudio Projects**
+# RStudio Projects
 If you have coded in R much or seen other people's code, you might be familiar with the need to set a working directory. Essentially, every time we open a session in R, we need to tell it where to hang out in our computer's file directory so we can access our data or tell R where to save our figures and outputs. Often, you'll see this done using the set working directory function:
 
 ```{r setwd, eval = FALSE}
@@ -60,16 +66,16 @@ Make sure to open the `bmsc-emd.Rproj` file before running any of our code and s
 ```{r getwd, eval=FALSE}
 getwd()
 ```
-##### **Hot tip: RMarkdown files will change the working directory to the location of the `.Rmd` file, even if you have a project open**. 
+**Hot tip: RMarkdown files will change the working directory to the location of the `.Rmd` file, even if you have a project open**. 
 So a script you create in the `Labs --> Lab 1` folder will default to a working directory of the `bmsc-emd` folder, while the `Lab 1 - In class.Rmd` file will default to a working directory of `bmsc-emd/Labs/Lab 1`. We avoided this by running the `knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())` line at the top of our file.
 
 ```{r basic script}
 df <- read.csv("Data/palmer_penguins_data.csv")
 ```
 
-### **R Basics**
+# R Basics
 
-##### **Variable structures and types**
+## Variable structures and types
 
 Different objects/variables get stored and used in different ways in R. We can create new objects using the assignment arrow `<-`:
 
@@ -146,7 +152,7 @@ str(vec4)
 is.na(vec4)
 ```
 
-##### **Data frames**
+### Data frames
 
 Now that we know the basics, we can move on to the slightly more complex data structures that we use most often when working with ecological data: data frames. A data frame is like the format of data you have when you input tables into Excel: a row of column names at the top, with each column representing a different variable you have information on. Every row represents a single observation from your data set.
 
@@ -164,7 +170,7 @@ class(df) #look at the class of the whole data frame
 
 We're going to look more into how we work with this type of object a little later.
 
-##### **Matrices**
+### Matrices
 
 A matrix looks very similar to a data frame but is structured a little differently under the hood. R treats data frames as if each column is its own separate vector - this means we can have a whole bunch of types of data in the same data frame (e.g., some columns can be numeric, while others are characters). A matrix on the other hand still has rows and columns, but all of the data have to be of the same class. We can coerce a data frame into a matrix, but it will convert all of the data to the same class:
 
@@ -182,7 +188,7 @@ new_mat2
 
 Here, even though some of our columns are numeric, they are all converted to characters! We'll be using matrices a lot in this course, because they work nicely with Stan.
 
-##### **Indexing**
+## Indexing
 
 One of the most important things we need to know how to do with vectors, data frames, and matrices is index - to be able to call on specific rows, columns, or individual cells. The most consistent way across data types is to use square brackets and to specify the row/column numbers:
 
@@ -233,7 +239,7 @@ df$species
 df$bill_length_mm
 ```
 
-##### **Logical statements**
+## Logical statements
 
 Another important skill we need to have is to be able to test whether an object meets certain conditions we're interested in. For instance, we might want to know whether two objects are the same, or which rows of a column are greater than a certain value. Here are the operators we'll use most often to do this:
 
@@ -245,7 +251,7 @@ Another important skill we need to have is to be able to test whether an object 
 * `<`: "Is the left side less than the right side?"
 * Any function starting with "is", such as `is.character()`, `is.na()`, `is.numeric()`
 
-##### **Hot tip: = and == are different things!**
+**Hot tip: = and == are different things!**
 A single equal sign is a command - we are telling R that something is equivalent to something else. This is similar to using the assignment arrow `<-`. A double equal sign is a question - we are asking R if two things are equal to one another. 
 
 All of the operations listed above are questions like this. We can combine mulitple questions with the `|` (or) and `&` (and) symbols. When R answers the question, it will return a TRUE or FALSE value. For objects with multiple rows/columns, you can only make these comparisons with other objects with the same dimensions. The output will be one TRUE/FALSE value for each individual cell comparison. 
@@ -270,7 +276,7 @@ g!=4 # is g not equal to 4?
 g!=5 # is g not equal to 5?
 ```
 
-### **Manipulating data**
+# Manipulating data
 
 So far, we've explored how variables (i.e., our "objects") are structured in our language of R. **Functions** are the "verbs" (i.e., the actions) in this language. Anything in R that is followed by parentheses is a function! So in our examples above, `class()`, `str()`, and `c()` are all functions that act on our variables. Some functions take a single input (e.g., `class()` takes a object and tells you its class attribute), while others have multiple **arguments** that specify what exactly you want the function to do. 
 
@@ -284,7 +290,7 @@ We'll use functions in virtually everything we do in R, but some of the most imp
 * Joining together different datasets
 * Calculating summary statistics
 
-##### **Hot tip: once you've entered your data, never open Excel again.**
+**Hot tip: once you've entered your data, never open Excel again.**
 It can be tempting to do any/all of these steps in Excel, but it is always best practice to leave your raw data alone once you've entered it. When you code your changes to your data, you have a paper trail of everything you did, which means you can go back and check your work, make changes, and share the steps with others. This is great for reproducibility!
 
 If we want to subset our data, we have to rely on those logical statements we talked about before. In base R, we use square brackets to subset our data directly by the logical 'question', while in the tidyverse, we ask the logical 'question' inside of the `mutate()` function.
@@ -339,7 +345,7 @@ df_reduced <- df %>%
   select(bill_length_mm, island)
 ```
 
-##### **Hot tip: avoid accidental recursion!**
+**Hot tip: avoid accidental recursion!**
 Whenever possible, try to write your code in a way where if you reran the same line of code multiple times, you'd always get the same output. If you don't, your results might change if you rerun some parts but not others! People most often run into this issue when manipulating their data prior to plotting or analysis. Some helpful tricks to avoid running into accidental recursion problems include:
 
 * Always make new variable names for modified data rather than writing over original ones
@@ -359,7 +365,7 @@ df <- df %>%
   mutate(logged_bill_length = log(bill_length_mm))
 ```
 
-### **Plotting**
+# Plotting
 
 Note that with base plot, you have two options for listing your variables. You either write it as `plot(x_variable, y_variable)` or `plot(y_variable ~ x_variable)`. To be safe, it's good practice to explicitly write out which arguments your inputs correspond to (e.g., `plot(x = x_variable, y = y_variable)`). However, knowing the order that a function expects arguments can make writing code a little quicker so it's handy to know.
 
@@ -435,7 +441,7 @@ To save, all you need is the `ggsave()` function. Within it, you can specify wha
 #ggsave("Labs/Lab 1/cool_plot.pdf", cool_plot, height = 5, width = 7)
 ```
 
-### **Loops**
+# Loops
 
 Sometimes, we need to iterate an action over many elements (e.g., rows or columns of a dataset, elements of a list, levels of a variable, etc.). One straightforward way to do that is with a **for loop**. 
 
@@ -488,7 +494,7 @@ mass_means2 <- df %>%
   ungroup() #this line isn't necessary here, but is good practice to run after a group_by() line in case you do any further operations on this data frame
 ```
 
-### **Custom functions**
+# Custom functions
 
 Finally, to be able to code effectively, we need to learn how to make our own functions! When we create our own functions, we're essentially building a recipe for R to follow to do something useful. If you have to copy and paste chunks of your code more than a couple times, it's probably a good idea to make a function for yourself instead. This is because if you copy and paste your code a bunch but make a change to one chunk, you're likely to forget to make the same changes in every other chunk. Whereas if you have your code written as a function, you only need to make the change once!
 
@@ -544,7 +550,7 @@ custom_output_apply[[1]]
 custom_output_apply
 ```
 
-##### **Hot tip: functions can only recognize arguments that you put between the parentheses!**
+**Hot tip: functions can only recognize arguments that you put between the parentheses!**
 Even if you have an object in your environment with the name of an argument that is in your function, your function won't know that this is the object you want it to use unless you explicitly tell it.
 
 In our example from above, even if we had written `custom_function()` with the argument `df` instead of `data`, we would still have to specify that `df = df` in the function - R wouldn't know to use our object named `df` automatically. 
