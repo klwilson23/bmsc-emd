@@ -7,7 +7,7 @@ output:
     smooth_scroll: yes
     toc: yes
     toc_float: yes
-    theme: journal #theme I like... pick your own
+    theme: journal #theme I like... pick your own from here(https://bookdown.org/yihui/rmarkdown/html-document.html#appearance-and-style) and follow the bootswatch link
     highlight: zenburn
 date: "2023-06-19"
 ---
