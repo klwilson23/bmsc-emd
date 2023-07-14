@@ -277,6 +277,8 @@ ggs_Rhat(ggs(MCMC_chains)) # this is a ggplot function that plots the gelman-rub
 print(heidel.diag(MCMC_chains)) # heidel diagnostic 
 # Graphical diagnostics
 traceplot(MCMC_chains)
+ggmcmc(ggs(MCMC_chains),file="Labs/Lab 3/mcmc_output.pdf")
+
 ```
 
 Next, we will plot the marginal histograms for each of the parameters.
