@@ -15,8 +15,8 @@ or found in the class [Data](https://github.com/DylanMG/bmsc-emd/tree/main/Data)
 
 Links to labs are here
 - [Lab 1](https://dylanmg.github.io/bmsc-emd/Labs/Lab%201/Lab-1---In-class.html)
-- Lab 2
-- Lab 3
-- Lab 4
-- Lab 5
-- Lab 6
+- [Lab 2](https://dylanmg.github.io/bmsc-emd/Labs/Lab%201/Lab-2---In-class.html)
+- [Lab 3](https://dylanmg.github.io/bmsc-emd/Labs/Lab%201/Lab-3---In-class.html)
+- [Lab 4](https://dylanmg.github.io/bmsc-emd/Labs/Lab%201/Lab-4---In-class.html)
+- [Lab 5](https://dylanmg.github.io/bmsc-emd/Labs/Lab%201/Lab-5---In-class.html)
+- [Lab 6](https://dylanmg.github.io/bmsc-emd/Labs/Lab%201/Lab-6---In-class.html)
