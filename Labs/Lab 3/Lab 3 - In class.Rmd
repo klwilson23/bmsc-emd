@@ -1,11 +1,17 @@
 ---
 title: "Lab 3: Linear models and Bayesian MCMC"
-output: html_document
+output: 
+  html_document:
+    collapsed: no
+    number_sections: yes
+    smooth_scroll: yes
+    toc: yes
+    toc_float: yes
 date: "2023-07-05"
 author: "Kyle L. Wilson"
 ---
 
-```{r setup}
+```{r setup, include = FALSE}
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 library(dplyr)
 library(ggplot2)
@@ -17,7 +23,7 @@ library(ggplot2)
 library(ggmcmc)
 library(lubridate)
 ```
-## Background on the data for this lab
+# Background on the data for this lab
 Sea lice are marine copepods that parasitize salmon, and have been a hot topic over the past decade because of concerns of parasite transmission between farmed and wild salmon. Although sea lice are naturally occurring on wild Pacific salmon, the parasite can overwinter and amplify on salmon farms and then transmit to small and vulnerable juvenile wild salmon, affecting their health and survival (Krkošek et al. 2006). For a review of the ecology of sea lice and salmon in British Columbia, see Krkošek et al. (2010).
 
 This lab uses a published dataset of sea louse abundance on juvenile pink and chum salmon in the Broughton Archipelago, British Columbia (Peacock et al. 2016). The dataset includes details of the parasite species, sex, and stage, and also includes information on the size and health of host fish. Familiarize yourself with this dataset by reading the associated metadata, which can be downloaded under Supporting Information at the following link: http://doi.org/10.1002/ecy.1438 or at Dr. Steph Peacocks github: https://github.com/sjpeacock/Sea-lice-database
@@ -25,7 +31,7 @@ This lab uses a published dataset of sea louse abundance on juvenile pink and ch
 Abstract follows:
 The global expansion of aquaculture has changed the structure of fish populations in coastal environments, with implications for disease dynamics. In Pacific Canada, farmed salmon act as reservoir hosts for parasites and pathogens, including sea lice (Lepeophtheirus salmonis and Caligus clemensi) that can transmit to migrating wild salmon. Assessing the impact of salmon farms on wild salmon requires regular monitoring of sea-louse infections on both farmed and wild fish. Since 2001, we have collected juvenile pink (Oncorhynchus gorbuscha) and chum (O. keta) salmon annually at three sites in the Broughton Archipelago in British Columbia, Canada, during the annual juvenile-salmon migration from freshwater to the open ocean. From sampled fish, we recorded counts of parasitic copepodid-, chalimus-, and motile-stage sea lice. We report louse abundances as well as supplementary observations of fish size, development, and health.
 
-## infection and body size
+# infection and body size
 
 Let's explore a relationship between fish height (as a surrogate for weight) and length.
 
@@ -63,8 +69,8 @@ fit1b <- lm(height ~ length, data=lice_data)
 summary(fit1b)
 ```
 
-## Model comparisons
-### Likelihood ratio test
+# Model comparisons
+## Likelihood ratio test
 One version of model comparisons is a likelihood ratio test (LRT). Likelihood ratio tests are used to compare the goodness of fit of two hierarchically nested models which is used to evaluate whether or not adding complexity to the model (i.e., adding more parameters) makes your model significantly more accurate. "Nested models” simply means that the complex model differs only from the simpler (or “nested”) model by the addition of one or more parameters (often additional covariates or interactions). In summary, the LRT tells us if it is beneficial to add parameters to our model, or if we should stick with our simpler model. In their most basic form, the hypotheses for the LRT are:
 
 H0: You should use the nested model.
@@ -258,7 +264,7 @@ colnames(MCMC2) <- c(names(coefs),"Posterior","Deviance")
 
 ```
 
-## Merge the chains into a joint posterior distribution
+# Merge the chains into a joint posterior distribution
 
 We now have at least 2 independent MCMC chains that sampled our posterior distribution of interest. We need to see if it has passed some diagnostics - these algorithms do a lot of things and its hard to understand their outcomes. So we must interrogate the sampling chains. Generally, this will involves
 - trace plots of the chains (also known as fuzzy caterpillar plots)
