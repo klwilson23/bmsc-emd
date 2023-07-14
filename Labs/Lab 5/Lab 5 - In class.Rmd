@@ -1,19 +1,26 @@
 ---
 title: "Lab 5: Hierarchical models and likelihood profiles"
-output: html_document
+output: 
+  html_document:
+    collapsed: no
+    number_sections: yes
+    smooth_scroll: yes
+    toc: yes
+    toc_float: yes
 date: "2023-07-07"
 author: "Kyle L. Wilson"
 ---
 
-```{r setup}
-knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      root.dir = rprojroot::find_rstudio_root_file())
 library(nlme)
 library(stats4)
 library(ggplot2)
+library(here)
 ```
 
-## What are fixed and random effects
+# What are fixed and random effects
 
 *Fixed Effects* are parameters associated with the entire population or with certain repeatable levels of experimental units. - For example, what is the expected body size of a yelloweye rockfish.
 
@@ -31,11 +38,11 @@ We selected six streams (at random) and measure fish densities at each stream, e
 
 
 ```{r read the data}
-Streams <- readRDS(file="Data/streams.rds")
+Streams <- readRDS(here("Data/streams.rds"))
 colnames(Streams) <- c("Stream","true_density","Density")
 ```
 
-### Fixed effects model
+# Fixed effects model
 First, let's fit a relatively simple intercept-only model which speaks to the fish density in a typical stream.
 
 ```{r lm version 1, echo=FALSE}
@@ -74,7 +81,7 @@ plot(as.numeric(unique(Streams$true_density)),coef(lm3)[[1]],xlab="True value",y
 abline(b=1,a=0) # add a 1:1 line for comparison
 ```
 
-### Hierarchical model: what's under the hood
+# Hierarchical model: what's under the hood
 
 We are going to construct a numerical algorithm, using Simpson's 1/3 rule (see here: https://en.wikipedia.org/wiki/Simpson%27s_rule#Simpson's_1/3_rule), to approximate the integral of the random effects conditional on the estimates for the fixed effects. To do this, we will:
 - create a 1st function that calculates the likelihood inside the step of the integral
