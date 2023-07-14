@@ -1,6 +1,12 @@
 ---
-title: "Lab 1"
-output: html_document
+title: "Lab 4"
+output: 
+  html_document:
+    collapsed: no
+    number_sections: yes
+    smooth_scroll: yes
+    toc: yes
+    toc_float: yes
 date: "2023-06-19"
 ---
 
