@@ -1,6 +1,12 @@
 ---
 title: "Lab 2: maximum likelihood and Bayesian grid approximation"
-output: html_document
+output: 
+  html_document:
+    collapsed: no
+    number_sections: yes
+    smooth_scroll: yes
+    toc: yes
+    toc_float: yes
 date: "2023-06-19"
 author: "Kyle L. Wilson"
 ---
@@ -11,7 +17,7 @@ library(tidyr)
 library(ggplot2)
 ```
 
-### Likelihood optimization and Bayesian posterior grid approximation
+# Likelihood optimization and Bayesian posterior grid approximation
 
 To demonstrate what we've learned from class regarding likelihoods, we will do some comparisons between frequentist (likelihood) and Bayesian approaches. Through this exercise, we should see some similarities, through the likelihood function and some differences - typically through priors and how uncertainty is quantified.
 
@@ -53,7 +59,7 @@ ss_results <- data.frame(metric=c("mu"),method="optim (SS)",value=fit$par,sd=NA,
 ```
 What does this estimate look like? Now, there is more than one parameter that we used to generate the data. 
 
-#### question: What are we missing in the sums of squared errors?
+## question: What are we missing in the sums of squared errors?
 
 Let's add that into a new function that we will call the log-likelihood. We use the log-likelihood rather than the likelihood because likelihoods are very small numbers (think of it, what is the likelihood of one particular realized data among all possible data for a distribution - not particularly likely). The joint likelihood is the product of all likelihoods - hence, smaller numbers get even smaller. Eventually, our computer cannot store that precise of information, called underflow, and we lose the signal. But recall the rule of logs: the sum of the logs is the same as the product of the originals. So, if we log the likelihood, we can sum their logs to get larger numbers rather than smaller numbers. 
 
@@ -114,7 +120,7 @@ mu_grid <- seq(from = 5, to = 30, length = grid_size)
 ```
 
 
-## Grid approximation
+# Grid approximation
 Once we've set up the grid, we can loop along that grid to calculate the prior probabilty and the joint log-likelihood of the probablity of the data to a range of possible $\mu$. The product of the prior*likelihood (not the log-likelihood) is the posterior.
 
 ```{r grid approx, echo=FALSE}
@@ -167,9 +173,9 @@ ggplot2::ggplot(df_l,aes(x = mu, y = value, color = func)) +
 ```
 Play around with how much information the prior has by increasing or decreasing the sd of the prior.
 
-#### question: What is the effect of the normal prior here? 
+## question: What is the effect of the normal prior here? 
 
-### Sample size
+# Sample size
 Let's increase the sample sizes to see what the effect of more samples would do for the posterior.
 ```{r more sample sizes}
 # How many samples do we have?
@@ -203,7 +209,7 @@ ggplot2::ggplot(df_l[df_l$prior_type=="normal" & df_l$func=="posterior",],aes(x 
 
 Next, let's derive posterior statistics, like the mode, mean, sd, and 95% credible intervals. 
 
-#### Question: How do these compare to our maximum likelihood approaches?
+## Question: How do these compare to our maximum likelihood approaches?
 ```{r}
 # calculate the MAP, MEAN, 95% CI, and SD for ln(a) and b
 mu_mn <- sum(df3$mu*df3$posterior)
