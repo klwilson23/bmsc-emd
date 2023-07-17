@@ -1,29 +1,340 @@
 ---
-title: "Lab 1"
+title: "Lab 4"
 output: html_document
-date: "2023-06-19"
+date: "2023-07-17"
+author: "Hannah Watkins"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+library(tidyverse)
+library(rstan)
+library(bayesplot)
+library(bayesAB)
+library(loo)
+library(DHARMa)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores()) #use for running model
 ```
 
-## R Markdown
+In today's lab, we finally going to get to use Stan!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Using Stan to code Bayesian models is a delightful experience, and we're going to start off with a pretty straightforward model on - you guessed it - more fish. This time around, we're going to be looking at sardines. Specfically, a sardine fishery examined in the Science paper Myers *et al.* 1995. Let's take a look at the data from this fishery:
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r load data}
+df <- read.csv("Data/sardine_S-R.csv")
+head(df)
+#S.year is the spawning year
+#R.year is the year those corresponding juveniles were recruited to the popn
+#SSB is the spawning stock biomass in thousands of metric tonnes
+#R is the number of recruits in millions
+ggplot(df, aes(SSB, R)) + 
+  geom_point() +
+  theme_classic() + 
+  labs(x = "Spawning stock biomass (thousands of tonnes)", 
+       y = "Recruits (millions of individuals)")
 ```
 
-## Including Plots
+In our dataset, we have the typical variables we need to run some classic fisheries models: the spawning stock biomass (SSB) for a given year (S.year), and the corresponding number of individuals recruited to the fishery (R) after a certain amount of time (R.year)
 
-You can also embed plots, for example:
+One model commonly used in fisheries stock assessment and management is the Beverton-Holt model. Tragically, as a sea cucumber fisheries biologist, this equation is meaningless to me, since sea cucumbers don't have bones, can't be aged, can't be tagged, and are almost impossible to measure precisely (so ask Kyle for more details if you're curious about it):
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+$$
+R=\frac{\alpha S}{1+S/K}
+$$
+What's important to note, is that there are two parameters in the equation that we need to estimate: $\alpha$ and K. $\alpha$ is the slope of the relationship between recruits and SSB at low values of SSB, while K is related to carrying capacity (it's technically the half-saturation point parameter - this means that we find the asymptote of the curve, and then find the value of SSB that gives us half the value of the asymptote for the maximum number of recruits possible).
+
+Let's whip up a Stan model to try to estimate these terms. Unlike in R, where we can reference entire dataframes in our functions, Stan needs us to be really explicit with what data we're giving it to work with. So every variable needs to be defined individually, even the number of rows in our data! Let's make a little list of all the data Stan needs to know about:
+
+```{r stan data}
+stan_data <- list(n_row = nrow(df),
+                  ssb = df$SSB,
+                  recruits = df$R)
+
+#we're also going to explicitly state how many iterations we want to run, because 
+#this will be helpful later in the code
+iter <-  4000 #this is stan's default but we're going to state it here to use later
+warmup <- floor(iter/2) #our warmup will be half of the total iter (floor() rounds this number incase it ends in 0.5)
+chains <- 4
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Next, we'll write up our model directly in a `.stan` file. We'll go there now.
+
+
+And we're back! Now that we've written out our Stan code, we'll run it in R. We'll use the `stan()` function in the `rstan` package to specify our code and our data. There are a ton of other optional parameters within `stan()`, but the defaults are pretty good, so we won't mess with them unless we run into issues.
+
+```{r, stan mod, eval = FALSE}
+mod1 <- rstan::stan(file = "Labs/Lab 4/sardine_model.stan", 
+                    data = stan_data,
+                    iter = iter,
+                    chains = chains)
+#we can also save the model object if we don't want to run it again, but do want to use it in a future session
+#saveRDS(mod1, "Labs/Lab 4/basic_BH_mod.rds")
+```
+
+```{r, echo = FALSE}
+#including this line in the markdown so we can load in the model right away while knitting
+mod1 <- readRDS("Labs/Lab 4/basic_BH_mod.rds")
+```
+
+It ran! And we didn't get any errors! Congratulations, we've passed our first test of whether or not our model is working. Tragically, it doesn't end there. We have a bunch of other checks we should run to make sure the model we developed isn't complete garbage. Let's start off by looking at a summary of our output.
+
+```{r, summary}
+summ <- summary(mod1)$summary
+head(summ)
+```
+
+We can explore the `summ` matrix to look at our model outputs and Gelman-Rubin stats (Rhats), and we can also run a quick check to see if any of our Rhat values are greater than 1 (rather than scrolling through a hundred rows).
+
+```{r, rhats}
+summ %>% 
+  as.data.frame() %>% 
+  mutate(rhat = round(Rhat,2)) %>% 
+  filter(rhat != 1)
+#any rows it returns will show us which parameters haven't fully converged
+#as long as this code returns an object with zero rows, we're happy!
+```
+
+Now we can check out our posterior distributions for our parameters of interest and our traceplots to see how our model looks.
+
+```{r, trace}
+posterior <- as.array(mod1)
+bayesplot::mcmc_areas(posterior, pars = c('alpha', 'sigma'))
+bayesplot::mcmc_areas(posterior, pars = c('K'))
+rstan::traceplot(mod1, pars = c('alpha', 'K', 'sigma'))
+```
+
+Our caterpillars are looking nice and fuzzy! Next up, we'll run a quick posterior predictive check (pp check!!), to see how well our model is able to reproduce a similar dataset to what we used to create it. If you run a model in `brms` or `rstanarm`, there are default functions you can use to do this quickly, but we have to add in an extra step to convert our model output to a nice format for plotting.
+
+```{r, PP CHECK}
+#calculate the total number of iterations actually stored in our model object
+total_iter <- (iter-warmup)*chains
+#extract our y_ppd values for a subset of iterations
+#this code is a little janky, but it works! Feel free to play around and make it
+#prettier
+yrep_extract <- function(model, yrep_name){
+  as.data.frame(rstan::extract(model, pars = yrep_name)[[1]]) %>%
+  rownames_to_column() %>% 
+  mutate(rowname = as.numeric(rowname)) %>% 
+  filter(rowname%in%c(sample(1:total_iter, 50, replace = FALSE))) %>% 
+  dplyr::select(-rowname) %>% 
+  as.matrix()
+}
+#now we can feed these extracted values into our ppcheck function
+bayesplot::ppc_dens_overlay(df$R, yrep=yrep_extract(mod1, "y_ppd"))
+```
+
+What we're looking for in the posterior predictive check is to see if our simulated data (i.e., "y_rep", or the light blue lines) line up reasonably well with our real data (i.e. "y", or the dark blue line). In this case, our model isn't too bad! It looks like we might be slightly overpredicting the number of small values and underpredicting some of the mid-range values, but our dark blue line always has some light blue above and below it, which is a good sign.
+
+Next up, let's check whether we have any weird patterns going on in our residuals. I love using the `DHARMa` package for this, because it automatically standardizes everything so you can use it regardless of what kind of distributions you're using.
+
+As with our pp check, `rstan` objects don't play nice with our convenient functions, so we have to make our own function to get stuff in the right format for DHARMa:
+
+```{r, resid check}
+dharma_resids <- function(model, iter, response, y_ppd = "y_ppd"){
+  #extract model predictions based on our generated quantities section (the y_ppd variable)
+  predictions <- as.data.frame(rstan::extract(model,
+                             pars = y_ppd)[[1]]) %>%
+    #get things in the right format
+    rownames_to_column() %>%
+    pivot_longer(!rowname,
+                 names_to = "obs",
+                 values_to = "y_ppd") %>%
+    mutate(rowname = as.numeric(rowname))
+  # randomly select 250 draws
+  sim_response_matrix <-
+    data.frame(rowname = sample(1:iter, 250, replace = FALSE)) %>%
+    #left_join will grab only the rows in predictions that line up with the row
+    #names we randomly generated above
+    left_join(predictions, by = "rowname") %>%
+    #remove obs so we can pivot wider without pissing it off
+    dplyr::select(-obs) %>%
+    group_by(rowname) %>%
+    mutate(row = row_number()) %>%
+    #get everything back in the right format
+    pivot_wider(id_cols = everything(), names_from = 'rowname', values_from = 'y_ppd') %>%
+    dplyr::select(-row) %>%
+    as.matrix()
+  #calculate the residuals using the simulated responses and the actual raw data
+  resids <- DHARMa::createDHARMa(simulatedResponse = sim_response_matrix,
+                       observedResponse = response,
+                       fittedPredictedResponse = apply(t(sim_response_matrix), 2, median),
+                       integerResponse = FALSE)
+  return(resids)
+}
+
+#run our custom function on our model and with our raw data
+resids <- dharma_resids(mod1, iter, df$R)
+plot(resids)
+```
+
+DHARMa creates two plots for us and runs three different tests that can help us figure out what (if anything) is wrong with our model. On the left panel, we see a qqplot of the standardized residuals - these should fall roughly along the straight line in a model that fits reasonably well. There are also the results of the three tests printed directly onto the panel - these will turn red if your model fails them! The KS test tells you if you’ve picked a reasonable distribution for your data (see the distributions section below for more details about that), the dispersion test tells you if your data are more or less dispersed than expected for your model (which can also give you a clue as to whether you’ve chosen the right distribution), and the outlier test tells you if any of your observations are statistical outliers that may be having a disproportionate influence on your model. On the right panel, we see a plot of our standardized residuals against the standardized model predictions - this helps us see if there is any weird patterning in our residuals and to look for issues like heteroskedasticity (i.e., if the amount of spread of our data around the modelled line increases with certain values of our predictor).
+
+Note that `DHARMa` does significance testing - which means that if you have a massive sample size, you're almost always going to fail the tests! So red isn't an automatic indicator of doom - just an invitation to use your judgement.
+
+Finally, let's plot our model estimates onto our data to see if they make sense!
+
+```{r plot output}
+#extract the parameter estimates from our model
+#extract() will create a list with every parameter, and each parameter will have
+#one column for every element we defined in the stan file, and one row for every
+#iteration we've kept from the model
+params1 <- rstan::extract(mod1)
+
+#extract our mean recruit estimates
+mean_recruits <- params1$mean_recruits
+#and our randomly generated predictions
+pred_recruits <- params1$y_ppd
+
+#extract the median and 95% CI across the SSBs in our dataset
+#we'll make an empty matrix ro feed our median and CIs into
+med_mat <- data.frame(median_fit=NA,l.95.ci=NA,u.95.ci=NA)
+#then, since we have one column for each observation in our original dataset,
+#we'll run a for loop to do each calculation for each column
+for(i in 1:ncol(mean_recruits)){
+  #take the median within each column
+  med_mat[i,1]=median(mean_recruits[,i])
+  #the the upper and lower CIs
+  med_mat[i,2]=quantile(mean_recruits[,i],0.025)
+  med_mat[i,3]=quantile(mean_recruits[,i],0.975)
+}
+
+#we'll do the same thing with the predictions we generated in the generated
+#quantities section
+#this time, the 2.5% and 97.5% quantiles will represent our 95% predicitve 
+#interval (i.e., our uncertainty around our estimate for any given SSB - 
+#remember that our CI is our uncertainty around the *mean* estimate)
+pred_mat <- data.frame(median_pred=NA,l.95.pi=NA,u.95.pi=NA)
+for(i in 1:ncol(pred_recruits)){
+  pred_mat[i,1]=median(pred_recruits[,i])
+  pred_mat[i,2]=quantile(pred_recruits[,i],0.025)
+  pred_mat[i,3]=quantile(pred_recruits[,i],0.975)
+}
+
+#connect these to our original dataframe to make plotting easier
+df_plot <- df %>% 
+  bind_cols(as.data.frame(med_mat), as.data.frame(pred_mat))
+
+#plot!
+ggplot(data = df_plot, aes(x = SSB, y = R)) +
+  #plot the 95% CI
+  geom_ribbon(aes(x = SSB, y = median_fit, ymin = l.95.ci, ymax = u.95.ci),
+              fill='darkcyan', alpha = 0.2) +
+  #and the mean model estimate
+  geom_line(aes(x=SSB, y = median_fit), 
+            lwd=0.8, col = "darkcyan") +
+  #and throw in the raw data for funsies (and because it's generally a good rule
+  #of thumb to show the raw data so readers can judge for themselves whether or
+  #not your model is total crap)
+  geom_point() +
+  theme_classic() +
+  labs(x = "Spawning stock biomass (thousands of tonnes)", 
+       y = "Recruits (millions of individuals)")
+
+#do the same thing here but with our predictions rather than our mean estimate
+ggplot(data = df_plot, aes(x = SSB, y = R)) +
+  geom_ribbon(aes(x = SSB, y = median_pred, ymin = l.95.pi, ymax = u.95.pi),
+              fill='darkgreen', alpha = 0.2) +
+  geom_line(aes(x=SSB, y = median_pred), 
+            lwd=0.8, col = "darkgreen") +
+  geom_point() +
+  theme_classic() +
+  labs(x = "Spawning stock biomass (thousands of tonnes)", 
+       y = "Recruits (millions of individuals)")
+
+#and we can combine them here to show just how much of a crapshoot a lot of 
+#fisheries management is, and how people are lying to themselves if they only
+#look at uncertainty in the mean
+ggplot(data = df_plot, aes(x = SSB, y = R)) +
+  geom_ribbon(aes(x = SSB, y = median_pred, ymin = l.95.pi, ymax = u.95.pi),
+              fill='darkgreen', alpha = 0.2) +
+  geom_line(aes(x=SSB, y = median_pred), 
+            lty=5,lwd=0.8, col = "darkgreen") +
+  geom_ribbon(aes(x = SSB, y = median_fit, ymin = l.95.ci, ymax = u.95.ci),
+              fill='darkcyan', alpha = 0.2) +
+  geom_line(aes(x=SSB, y = median_fit), 
+            lwd=0.8, col = "darkcyan") +
+  geom_point() +
+  theme_classic() +
+  labs(x = "Spawning stock biomass (thousands of tonnes)", 
+       y = "Recruits (millions of individuals)")
+```
+
+Note in the example above, we took the median value of our chains to represent our central tendancy, rather than the mean. We could also easily take the mean instead! The only issue with that, is that our 95% predictive interval extends to such high values, that it will drastically increase the mean (even though there is a low probability of those extremely high values). 
+
+```{r means vs medians}
+#extract the median and 95% CI across the SSBs in our dataset
+#we'll make an empty matrix ro feed our median and CIs into
+mean_mat <- data.frame(mean_fit=NA,l.95.ci=NA,u.95.ci=NA)
+#then, since we have one column for each observation in our original dataset,
+#we'll run a for loop to do each calculation for each column
+for(i in 1:ncol(mean_recruits)){
+  #take the median within each column
+  mean_mat[i,1]=mean(mean_recruits[,i])
+  #the the upper and lower CIs
+  mean_mat[i,2]=quantile(mean_recruits[,i],0.025)
+  mean_mat[i,3]=quantile(mean_recruits[,i],0.975)
+}
+
+#we'll do the same thing with the predictions we generated in the generated
+#quantities section
+#this time, the 2.5% and 97.5% quantiles will represent our 95% predicitve 
+#interval (i.e., our uncertainty around our estimate for any given SSB - 
+#remember that our CI is our uncertainty around the *mean* estimate)
+mean_pred_mat <- data.frame(mean_pred=NA,l.95.pi=NA,u.95.pi=NA)
+for(i in 1:ncol(pred_recruits)){
+  mean_pred_mat[i,1]=mean(pred_recruits[,i])
+  mean_pred_mat[i,2]=quantile(pred_recruits[,i],0.025)
+  mean_pred_mat[i,3]=quantile(pred_recruits[,i],0.975)
+}
+
+#connect these to our original dataframe to make plotting easier
+df_plot2 <- df %>% 
+  bind_cols(as.data.frame(mean_mat), as.data.frame(mean_pred_mat))
+
+#plot!
+ggplot(data = df_plot2, aes(x = SSB, y = R)) +
+  #plot the 95% CI
+  geom_ribbon(aes(x = SSB, y = mean_fit, ymin = l.95.ci, ymax = u.95.ci),
+              fill='darkcyan', alpha = 0.2) +
+  #and the mean model estimate
+  geom_line(aes(x=SSB, y = mean_fit), 
+            lwd=0.8, col = "darkcyan") +
+  #and throw in the raw data for funsies (and because it's generally a good rule
+  #of thumb to show the raw data so readers can judge for themselves whether or
+  #not your model is total crap)
+  geom_point() +
+  theme_classic() +
+  labs(x = "Spawning stock biomass (thousands of tonnes)", 
+       y = "Recruits (millions of individuals)")
+
+#do the same thing here but with our predictions rather than our mean estimate
+ggplot(data = df_plot2, aes(x = SSB, y = R)) +
+  geom_ribbon(aes(x = SSB, y = mean_pred, ymin = l.95.pi, ymax = u.95.pi),
+              fill='darkgreen', alpha = 0.2) +
+  geom_line(aes(x=SSB, y = mean_pred), 
+            lwd=0.8, col = "darkgreen") +
+  geom_point() +
+  theme_classic() +
+  labs(x = "Spawning stock biomass (thousands of tonnes)", 
+       y = "Recruits (millions of individuals)")
+
+#and we can combine them here to show just how much of a crapshoot a lot of 
+#fisheries management is, and how people are lying to themselves if they only
+#look at uncertainty in the mean
+ggplot(data = df_plot2, aes(x = SSB, y = R)) +
+  geom_ribbon(aes(x = SSB, y = mean_pred, ymin = l.95.pi, ymax = u.95.pi),
+              fill='darkgreen', alpha = 0.2) +
+  geom_line(aes(x=SSB, y = mean_pred), 
+            lty=5,lwd=0.8, col = "darkgreen") +
+  geom_ribbon(aes(x = SSB, y = mean_fit, ymin = l.95.ci, ymax = u.95.ci),
+              fill='darkcyan', alpha = 0.2) +
+  geom_line(aes(x=SSB, y = mean_fit), 
+            lwd=0.8, col = "darkcyan") +
+  geom_point() +
+  theme_classic() +
+  labs(x = "Spawning stock biomass (thousands of tonnes)", 
+       y = "Recruits (millions of individuals)")
+```
+
