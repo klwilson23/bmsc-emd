@@ -20,7 +20,7 @@ library(ggplot2)
 *Random Effects* are parameters associated with individual experimental units drawn at random from a population.
 - For example, what is the expected body size of the 23rd population of yelloweye rockfish, as chosen from a database.
 
-A mixed effects model is a model that has both *fixed effects* and *random effects*. Often the same random effect is assigned to observations sharing a common grouping factor (or other classifying factor). Consider length-at-age data for several (randomly selected) populations of a species. A random factor could be stock and the observations are length-at-age data. Random effects can the thought of as ways of modelling the covariance structure of the data.
+A mixed effects model is a model that has both *fixed effects* and *random effects*. Often the same random effect is assigned to observations sharing a common grouping factor (or other classifying factor). Consider length-at-age data for several (randomly selected) populations of a species. A random factor could be stock and the observations are length-at-age data. Random effects can be thought of as ways of modelling the covariance structure of the data.
 
 Classical (frequentist) and Bayesian methods can be used to estimate the parameters of mixed effects models. This lab and homework will cover Frequentist. Lab 6 will cover their implementation in Stan.
 
@@ -59,7 +59,7 @@ lm2 <- lm(Density~Stream-1,data=Streams)
  print(paste("AIC ",AIC(lm2)))
 ```
 
-Well, good news. The residual pattern has been removed, but now we have no overall mean and no way to comment on between-stream variance, i.e. we cannot say anything about the population of streams. From here, we will fit a mixed-effects model. This can be done with a few different packages in R including `nlme`, `lme4`, `glmmTMB`, and more! In a Bayesian context, this can be fun using `brms` (which you may wish to try at some point for your assignments).
+Well, good news. The residual pattern has been removed, but now we have no overall mean and no way to comment on between-stream variance, i.e. we cannot say anything about the population of streams. From here, we will fit a mixed-effects model. This can be done with a few different packages in R including `nlme`, `lme4`, `glmmTMB`, and more! In a Bayesian context, this can be fit using `brms` (which you may wish to try at some point for your assignments).
 
 ```{r lme, echo=FALSE}
  lm3 <- lme(fixed = Density ~ 1,data=Streams,random = ~ 1 | Stream) 
@@ -167,16 +167,16 @@ Confidence intervals from likelihood profiling are based on the log-likelihood f
 Below is a likelihood profile of the beta parameter (based on a search along $\beta_{MLE}\pm0.75\beta_{MLE}$ constructed for the numerical computation of a mixed-effects model of the Streams dataset. This function calculates the negative log-likelihood profiled across fixed values for beta to assess the 95% confidence intervals, calculated as the minimum and maximum values of β for which $ln\mathcal{L}(\theta|\beta_i )\ge(ln\mathcal{L}(\theta|\beta_{MLE})-1.92)$. The 95% CI from likelihood profiling are compared to the 95% CI calculated from the ‘LME’ package using the function ‘intervals’ in Program R.
 
 ```{r profile}
-b.profile=seq(from=beta-0.75*beta,to=beta+0.75*beta,length=1000)
+b.profile=seq(from=beta-0.75*beta,to=beta+0.75*beta,length=200)
 lowerb <- -5
 upperb <- 5
 nbins <- 100
-theta=c(beta,sig_e,sig_b)
+theta=c(log(sig_e),log(sig_b))
 b.pro.fun = function (theta) #(theta)
 {
   beta <- b.pro # note that now the estimate of b.pro is fixed
-  sig_e <- sig_e # in this case, we will fix sig_e as well but we could re-estimate that here
-  sig_b <- sig_b # in this case, we will fix sig_e as well but we could re-estimate that here
+  sig_e <- exp(theta[1]) # in this case, we will fix sig_e as well but we could re-estimate that here
+  sig_b <- exp(theta[2]) # in this case, we will fix sig_e as well but we could re-estimate that here
   stream <- c(1,2,3,4,5,6)
   like.str=vector(length=length(stream))
   for (i in stream)
@@ -208,4 +208,4 @@ abline(v=93.016,col="darkgreen",lty=3) #taken from the LME fits below
 legend("topright",c("ML Beta Value","Profile 95% CI","LME 95% CI"),col=c("red","red","darkgreen"),lty=c(1,2,3))
 ```
 
-Overall, the confidence intervals (CI) between the two methods are very similar with the profile 95% CI of $\beta$ at 66.8–90.4 and the ‘LME’ 95% CI of $\beta$ at 64.2– 93.0. The `lme()` 95% CI are slightly wider than the likelihood profile 95% CI. In part, this is because the ‘LME’ confidence intervals are obtained from the variance-covariance matrix from all parameters (based on the diagonals of the inversed Hessian matrix +/- 1.96) rather than uncertainty in just one parameter, iteratively - but it may also be because the parameter is indeed *not* asymptotically normal.
+Overall, the confidence intervals (CI) between the two methods are very similar with the profile 95% CI of $\beta$ at 64.7-92.6 and the ‘LME’ 95% CI of $\beta$ at 64.2– 93.0. The `lme()` 95% CI are slightly wider than the likelihood profile 95% CI. In part, this is because the ‘LME’ confidence intervals are obtained from the variance-covariance matrix from all parameters (based on the diagonals of the inversed Hessian matrix +/- 1.96) rather than uncertainty in just one parameter, iteratively - but it may also be because the parameter is indeed *not* asymptotically normal.

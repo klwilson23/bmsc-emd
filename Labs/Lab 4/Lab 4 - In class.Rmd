@@ -65,10 +65,18 @@ Next, we'll write up our model directly in a `.stan` file. We'll go there now.
 And we're back! Now that we've written out our Stan code, we'll run it in R. We'll use the `stan()` function in the `rstan` package to specify our code and our data. There are a ton of other optional parameters within `stan()`, but the defaults are pretty good, so we won't mess with them unless we run into issues.
 
 ```{r, stan mod, eval = FALSE}
-mod1 <- rstan::stan(file = "Labs/Lab 4/sardine_model.stan", 
+init_fx <- function(chain_id)
+{
+  list("alpha" = runif(1,1,5),
+  "K" = runif(1,2500,20000),
+  "delta" = 1,
+  "sigma" = 1)
+}
+mod1 <- rstan::stan(file = "Labs/Lab 4/bh_dep.stan", 
                     data = stan_data,
                     iter = iter,
-                    chains = chains)
+                    chains = chains,
+                    init = init_fx)
 #we can also save the model object if we don't want to run it again, but do want to use it in a future session
 #saveRDS(mod1, "Labs/Lab 4/basic_BH_mod.rds")
 ```
