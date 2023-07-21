@@ -1,0 +1,4999 @@
+
+  
+    
+      uid=HBR,o=EDI,dc=edirepository,dc=org
+      all
+    
+    
+      public
+      read
+    
+  
+  
+    doi:10.6073/pasta/6422a72893616ce9020086de5a5714cdBird Abundances at the Hubbard Brook Experimental Forest (1969-present) and on three replicate plots (1986-2000) in the White Mountain National Forest
+    
+      Richard Holmes
+      Dartmouth College
+      richard.t.holmes@dartmouth.edu
+      https://orcid.org/0000-0001-6705-6269
+    
+    
+      Nicholas Rodenhouse
+      Wellesley College
+      nrodenho@wellesley.edu
+      https://orcid.org/0000-0002-1291-1499
+    
+    
+      Michael Hallworth
+      Vermont Center for Ecostudies
+      mhallworth@gmail.com
+      https://orcid.org/0000-0002-6385-3815
+    
+    
+      Frank Sturges
+      Associated Party
+    
+    
+      Thomas Sherry
+      Associated Party
+    
+    
+      Scott Sillett
+      Smithsonian Conservation Biology Institute Migratory Bird Center
+      SillettS@si.edu
+      https://orcid.org/0000-0002-7486-0076
+      Associated Party
+    
+    2022-03-14
+    
+      Bird abundances have been determined from timed censuses, territory maps and nest 
+locations at the Hubbard Brook Experimental Forest from 1969 to the present. 
+This data set includes counts of the number of adult birds (males and females) 
+per 10 ha at HBEF (1969 - present) and on three additional plots within the 
+White Mountain National Forest (1986 - 2000).
+      These data were gathered as part of the Hubbard Brook Ecosystem Study (HBES). 
+The HBES is a collaborative effort at the Hubbard Brook Experimental Forest, which is 
+operated and maintained by the USDA Forest Service, Northern Research Station.
+      
+    
+    
+      populations
+      disturbance patterns
+      LTER Core Research Area
+    
+    
+      ecosystems
+      forests
+      watersheds
+      animals
+      birds
+      LTER Controlled Vocabulary
+    
+    
+      HBR
+      Hubbard Brook LTER
+      Hubbard Brook Experimental Forest
+      Hubbard Brook Ecosystem Study
+      HBES
+      HBEF
+      New Hampshire
+      NH
+      White Mountain National Forest
+      HBEF bird area
+      HBES Vocabulary
+    
+    
+      biota
+      climatologyMeteorologyAtmosphere
+      ISO 19115 Topic Category
+    
+    
+      Climate change effects
+      Ecology, Ecosystems, & Environment
+      National Research & Development Taxonomy
+    
+    
+      This information is released under the Creative Commons license - Attribution - CC BY (https://creativecommons.org/licenses/by/4.0/). The consumer of these data ("Data User" herein) is required to cite it appropriately in any publication that results from its use. The Data User should realize that these data may be actively used by others for ongoing research and that coordination may be necessary to prevent duplicate publication. The Data User is urged to contact the authors of these data if any questions about methodology or results occur. Where appropriate, the Data User is encouraged to consider collaboration or co-authorship with the authors. The Data User should realize that misinterpretation of data may occur if used out of context of the original study. While substantial efforts are made to ensure the accuracy of data and associated documentation, complete accuracy of data sets cannot be guaranteed. All data are made available "as is." The Data User should be aware, however, that data are updated periodically and it is the responsibility of the Data User to check for new versions of the data. The data authors and the repository where these data were obtained shall not be liable for damages resulting from any use or misinterpretation of the data. Thank you.
+
+    
+    https://doi.org/10.6073/pasta/6422a72893616ce9020086de5a5714cd
+      
+        Hubbard Brook Experimental Forest bird inventory plots.
+        
+          -71.804985
+          -71.69735
+          43.962128
+          43.915932
+        
+      
+      
+        Mount Moosilauke bird inventory plot, Woodstock NH.
+        
+          -71.773936
+          -71.773936
+          43.990567
+          43.990567
+        
+      
+      
+        Stinson Mountain bird inventory plot, Rumney NH.
+        
+          -71.773936
+          -71.773936
+          43.835
+          43.835
+        
+      
+      
+        Russell Pond bird inventory plot, Thornton NH.
+        
+          -71.645864
+          -71.645864
+          44.004677
+          44.004677
+        
+      
+      
+        
+          
+            1969-05-01
+          
+          
+            2018-09-30
+          
+        
+      
+      
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Apodiformes
+                          Swifts
+                          Hummingbirds
+                          177993
+                          
+                            family
+                            Trochilidae
+                            Hummingbirds
+                            178028
+                            
+                              subfamily
+                              Trochilinae
+                              693121
+                              
+                                genus
+                                Archilochus
+                                Ruby-throated Hummingbirds
+                                178031
+                                
+                                  species
+                                  Archilochus colubris
+                                  Ruby-throated Hummingbird
+                                  178032
+                                
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Galliformes
+                          Fowls
+                          Gallinaceous Birds
+                          175693
+                          
+                            family
+                            Phasianidae
+                            Partridges
+                            Turkeys
+                            Grouse
+                            Pheasants
+                            Quail
+                            175861
+                            
+                              subfamily
+                              Tetraoninae
+                              Grouse
+                              553485
+                              
+                                genus
+                                Bonasa
+                                Ruffed Grouse
+                                175789
+                                
+                                  species
+                                  Bonasa umbellus
+                                  Ruffed Grouse
+                                  175790
+                                
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Parulidae
+                            New World Warblers
+                            Wood-Warblers
+                            178842
+                            
+                              genus
+                              Cardellina
+                              Red-faced Warblers
+                              178969
+                              
+                                species
+                                Cardellina canadensis
+                                Canada Warbler
+                                950079
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Turdidae
+                            179751
+                            
+                              genus
+                              Catharus
+                              179778
+                              
+                                species
+                                Catharus fuscescens
+                                Veery
+                                179796
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Turdidae
+                            179751
+                            
+                              genus
+                              Catharus
+                              179778
+                              
+                                species
+                                Catharus guttatus
+                                Hermit Thrush
+                                179779
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Turdidae
+                            179751
+                            
+                              genus
+                              Catharus
+                              179778
+                              
+                                species
+                                Catharus ustulatus
+                                Swainson's Thrush
+                                179788
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Certhiidae
+                            178793
+                            
+                              genus
+                              Certhia
+                              Creepers
+                              178794
+                              
+                                species
+                                Certhia familiaris
+                                Eurasian Treecreeper
+                                178795
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Tyrannidae
+                            Tyrant Flycatchers
+                            178277
+                            
+                              genus
+                              Contopus
+                              Pewees
+                              178355
+                              
+                                species
+                                Contopus virens
+                                Eastern Wood-Pewee
+                                Eastern Wood Pewee
+                                178359
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Corvidae
+                            Crows
+                            Jays
+                            Magpies
+                            179665
+                            
+                              genus
+                              Cyanocitta
+                              Blue Jays
+                              179679
+                              
+                                species
+                                Cyanocitta cristata
+                                Blue Jay
+                                179680
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Piciformes
+                          Woodpeckers
+                          178140
+                          
+                            family
+                            Picidae
+                            Woodpeckers
+                            Wrynecks
+                            178148
+                            
+                              subfamily
+                              Picinae
+                              553479
+                              
+                                genus
+                                Dryocopus
+                                178165
+                                
+                                  species
+                                  Dryocopus pileatus
+                                  Pileated Woodpecker
+                                  178166
+                                
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Tyrannidae
+                            Tyrant Flycatchers
+                            178277
+                            
+                              genus
+                              Empidonax
+                              Empidonax Flycatchers
+                              178337
+                              
+                                species
+                                Empidonax minimus
+                                Least Flycatcher
+                                178344
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Tyrannidae
+                            Tyrant Flycatchers
+                            178277
+                            
+                              genus
+                              Empidonax
+                              Empidonax Flycatchers
+                              178337
+                              
+                                species
+                                Empidonax virescens
+                                Acadian Flycatcher
+                                178339
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Fringillidae
+                            Old World Finches
+                            Finches
+                            Hawaiian Honeycreepers
+                            179122
+                            
+                              genus
+                              Haemorhous
+                              997707
+                              
+                                species
+                                Haemorhous purpureus
+                                Purple Finch
+                                997803
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Turdidae
+                            179751
+                            
+                              genus
+                              Hylocichla
+                              Wood Thrushes
+                              179776
+                              
+                                species
+                                Hylocichla mustelina
+                                Wood Thrush
+                                179777
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Emberizidae
+                            Emberizid Finches
+                            American Sparrows
+                            Towhees
+                            Buntings
+                            New World Sparrows
+                            178838
+                            
+                              genus
+                              Junco
+                              Juncos
+                              179409
+                              
+                                species
+                                Junco hyemalis
+                                Dark-eyed Junco
+                                179410
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Parulidae
+                            New World Warblers
+                            Wood-Warblers
+                            178842
+                            
+                              genus
+                              Mniotilta
+                              Black-and-white Warblers
+                              178843
+                              
+                                species
+                                Mniotilta varia
+                                Black-and-white Warbler
+                                178844
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Cardinalidae
+                            Cardinals
+                            Grosbeaks
+                            Saltators
+                            Cardinal-Grosbeaks
+                            553443
+                            
+                              genus
+                              Pheucticus
+                              Cardinal-Grosbeaks
+                              179138
+                              
+                                species
+                                Pheucticus ludovicianus
+                                Rose-breasted Grosbeak
+                                179139
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          species
+          Picoides pubescens
+          Downy Woodpecker
+          178259
+        
+        
+          species
+          Picoides villosus
+          Hairy Woodpecker
+          178262
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Cardinalidae
+                            Cardinals
+                            Grosbeaks
+                            Saltators
+                            Cardinal-Grosbeaks
+                            553443
+                            
+                              genus
+                              Piranga
+                              Northern Tanagers
+                              179881
+                              
+                                species
+                                Piranga olivacea
+                                Scarlet Tanager
+                                179883
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Paridae
+                            Chickadees
+                            Titmice
+                            Tits
+                            178697
+                            
+                              genus
+                              Poecile
+                              553526
+                              
+                                species
+                                Poecile atricapillus
+                                Black-capped Chickadee
+                                554382
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Parulidae
+                            New World Warblers
+                            Wood-Warblers
+                            178842
+                            
+                              genus
+                              Seiurus
+                              Ovenbirds
+                              178926
+                              
+                                species
+                                Seiurus aurocapilla
+                                Ovenbird
+                                726205
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Parulidae
+                            New World Warblers
+                            Wood-Warblers
+                            178842
+                            
+                              genus
+                              Setophaga
+                              Redstarts
+                              178978
+                              
+                                species
+                                Setophaga caerulescens
+                                Black-throated Blue Warbler
+                                950042
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Parulidae
+                            New World Warblers
+                            Wood-Warblers
+                            178842
+                            
+                              genus
+                              Setophaga
+                              Redstarts
+                              178978
+                              
+                                species
+                                Setophaga coronata
+                                Yellow-rumped Warbler
+                                Myrtle Warbler
+                                950046
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Parulidae
+                            New World Warblers
+                            Wood-Warblers
+                            178842
+                            
+                              genus
+                              Setophaga
+                              Redstarts
+                              178978
+                              
+                                species
+                                Setophaga fusca
+                                Blackburnian Warbler
+                                950037
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Parulidae
+                            New World Warblers
+                            Wood-Warblers
+                            178842
+                            
+                              genus
+                              Setophaga
+                              Redstarts
+                              178978
+                              
+                                species
+                                Setophaga pensylvanica
+                                Chestnut-sided Warbler
+                                950040
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Parulidae
+                            New World Warblers
+                            Wood-Warblers
+                            178842
+                            
+                              genus
+                              Setophaga
+                              Redstarts
+                              178978
+                              
+                                species
+                                Setophaga ruticilla
+                                American Redstart
+                                178979
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Sittidae
+                            Nuthatches
+                            178773
+                            
+                              genus
+                              Sitta
+                              Nuthatches
+                              178774
+                              
+                                species
+                                Sitta canadensis
+                                Red-breasted Nuthatch
+                                178784
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Sittidae
+                            Nuthatches
+                            178773
+                            
+                              genus
+                              Sitta
+                              Nuthatches
+                              178774
+                              
+                                species
+                                Sitta carolinensis
+                                White-breasted Nuthatch
+                                178775
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Piciformes
+                          Woodpeckers
+                          178140
+                          
+                            family
+                            Picidae
+                            Woodpeckers
+                            Wrynecks
+                            178148
+                            
+                              subfamily
+                              Picinae
+                              553479
+                              
+                                genus
+                                Sphyrapicus
+                                Sapsuckers
+                                178201
+                                
+                                  species
+                                  Sphyrapicus varius
+                                  Yellow-bellied Sapsucker
+                                  178202
+                                
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Troglodytidae
+                            Wrens
+                            178539
+                            
+                              genus
+                              Troglodytes
+                              Wrens
+                              178540
+                              
+                                species
+                                Troglodytes hiemalis
+                                916803
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Turdidae
+                            179751
+                            
+                              genus
+                              Turdus
+                              Robins
+                              179752
+                              
+                                species
+                                Turdus migratorius
+                                American Robin
+                                179759
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Vireonidae
+                            Greenlets
+                            Vireos
+                            178988
+                            
+                              genus
+                              Vireo
+                              Vireos
+                              178989
+                              
+                                species
+                                Vireo olivaceus
+                                Red-eyed Vireo
+                                179021
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Vireonidae
+                            Greenlets
+                            Vireos
+                            178988
+                            
+                              genus
+                              Vireo
+                              Vireos
+                              178989
+                              
+                                species
+                                Vireo philadelphicus
+                                Philadelphia Vireo
+                                179022
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+        
+          kingdom
+          Animalia
+          animals
+          202423
+          
+            subkingdom
+            Bilateria
+            914154
+            
+              infrakingdom
+              Deuterostomia
+              914156
+              
+                phylum
+                Chordata
+                chordates
+                158852
+                
+                  subphylum
+                  Vertebrata
+                  vertebrates
+                  331030
+                  
+                    infraphylum
+                    Gnathostomata
+                    914179
+                    
+                      superclass
+                      Tetrapoda
+                      914181
+                      
+                        class
+                        Aves
+                        Birds
+                        174371
+                        
+                          order
+                          Passeriformes
+                          Perching Birds
+                          178265
+                          
+                            family
+                            Vireonidae
+                            Greenlets
+                            Vireos
+                            178988
+                            
+                              genus
+                              Vireo
+                              Vireos
+                              178989
+                              
+                                species
+                                Vireo solitarius
+                                Solitary Vireo
+                                Blue-headed Vireo
+                                179010
+                              
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+      
+    
+    
+      ongoing
+    
+    
+      Hubbard Brook Ecosystem Study
+      hbr-im@lternet.edu
+    
+    Environmental Data Initiativeinfo@environmentaldatainitiative.orghttps://environmentaldatainitiative.org0330j0z60Environmental Data Initiative
+      
+        
+          LOCATION DESCRIPTION
+          HBEF data obtained in 10-ha bird study plot, adjacent to (south/southwest) 
+of Weir 6. Other 3 "replicate" sites located outside HBEF, but in nearby sections 
+of the White Mountain National Forest at same elevations and aspects and in stands 
+with simlar forest history and vegetation. These are as follows:
+          1) Moosilauke, 8 km north of HBEF. Plot located 100 m NW of NH route 118, 
+8 km west of North Woodstock NH (in township of Woodstock, NH).
+          2) Russell Pond, 11 km NE of HBEF. Plot located 1.2 km SW of Russell Pond, Thornton, NH.
+          3) Stinson Mountain, 13 km SW of HBEF. Plot located 1.7 km E of Stinson Mountain lookout tower, Rumney, NH.
+          SAMPLING DESIGN
+          Bird abundances have been determined from timed censuses, territory maps, nest locations, Counts 
+are the number of adult birds (males and females) per 10 ha, taking into account territories 
+that partially overlap the 10 hectare area. A full description of the sampling methods can be found in Holmes et al, 1986.
+          Richard T. Holmes, R. T. Holmes, Thomas W. Sherry, T. W. Sherry, & Franklin W. Sturges, F. W. Sturges. (1986). 
+Bird Community Dynamics in a Temperate Deciduous Forest: Long‐Term Trends at Hubbard Brook. 
+Ecological monographs, 56, 201-220. doi: 10.2307/2937074
+
+        
+      
+    
+    
+      Avian population and community studies in a northern hardwoods ecosystem (1969-1971)
+      
+        Richard Holmes
+        Dartmouth College
+        richard.t.holmes@dartmouth.edu
+        https://orcid.org/0000-0001-6705-6269
+        Principal Investigator
+      
+      National Science Foundation NA
+      
+        Research on animal populations in a northern hardwoods ecosystem (1971-1973)
+        
+          Richard Holmes
+          Dartmouth College
+          richard.t.holmes@dartmouth.edu
+          https://orcid.org/0000-0001-6705-6269
+          Principal Investigator
+        
+        National Science Foundation NA
+      
+      
+        Quantitative studies of animal populations and communities in a northern hardwoods ecosystem (1974-1976)
+        
+          Richard Holmes
+          Dartmouth College
+          richard.t.holmes@dartmouth.edu
+          https://orcid.org/0000-0001-6705-6269
+          Principal Investigator
+        
+        National Science Foundation NA
+      
+      
+        Quantitative studies of animal populations and communities in a northern hardwoods ecosystem (1976-1977)
+        
+          Richard Holmes
+          Dartmouth College
+          richard.t.holmes@dartmouth.edu
+          https://orcid.org/0000-0001-6705-6269
+          Principal Investigator
+        
+        National Science Foundation NA
+      
+      
+        Quantitative studies of animal populations and communities in a northern hardwoods ecosystem (1977-1980)
+        
+          Richard Holmes
+          Dartmouth College
+          richard.t.holmes@dartmouth.edu
+          https://orcid.org/0000-0001-6705-6269
+          Principal Investigator
+        
+        National Science Foundation NA
+      
+      
+        Competitive interactions, inclusive niches, and the evolution of life history traits: a study of two forest passerines (1981-1983)
+        
+          Richard Holmes
+          Dartmouth College
+          richard.t.holmes@dartmouth.edu
+          https://orcid.org/0000-0001-6705-6269
+          Principal Investigator
+        
+        National Science Foundation NA
+      
+      
+        Effects of food abundance, habitat structure and species interactions on migratory bird populations in temperate forests (1983-1986)
+        
+          Richard Holmes
+          Dartmouth College
+          richard.t.holmes@dartmouth.edu
+          https://orcid.org/0000-0001-6705-6269
+          Principal Investigator
+        
+        National Science Foundation NA
+      
+      
+        LTREB: Long-Term Population Trends of Birds in Northern Hardwood Forests (1986-1991)
+        
+          Richard Holmes
+          Dartmouth College
+          richard.t.holmes@dartmouth.edu
+          https://orcid.org/0000-0001-6705-6269
+          Principal Investigator
+        
+        National Science Foundation 8516838
+      
+      
+        LTER (Long-term Ecological Research): Population dynamics of birds and insects in northern hardwood forests (1991-1996)
+        
+          Richard Holmes
+          Dartmouth College
+          richard.t.holmes@dartmouth.edu
+          https://orcid.org/0000-0001-6705-6269
+          Principal Investigator
+        
+        National Science Foundation NA
+      
+      
+        Mechanisms of population regulation in migratory birds - demographic, experimental, and modeling studies (1996-2001)
+        
+          Richard Holmes
+          Dartmouth College
+          richard.t.holmes@dartmouth.edu
+          https://orcid.org/0000-0001-6705-6269
+          Principal Investigator
+        
+        National Science Foundation NA
+      
+      
+        LTREB: Temporal and Spatial Variation in the Abundance and Demography of Forest Birds --Effects of Climate and Biotic Factors (2001-2007)
+        
+          Richard Holmes
+          Dartmouth College
+          richard.t.holmes@dartmouth.edu
+          https://orcid.org/0000-0001-6705-6269
+          Principal Investigator
+        
+        National Science Foundation 108488
+      
+      
+        Collaborative Research: RUI: LTREB: Behavioral and demographic responses of migratory birds to climate change (2007-2012)
+        
+          Nicholas Rodenhouse
+          Wellesley College
+          nrodenho@wellesley.edu
+          https://orcid.org/0000-0002-1291-1499
+          Principal Investigator
+        
+        National Science Foundation 640732
+      
+      
+        LTREB-Renewal: Collaborative Research: Behavioral and demographic responses of migratory birds to climate change (2012-2018)
+        
+          Scott Sillett
+          Smithsonian Conservation Biology Institute Migratory Bird Center
+          SillettS@si.edu
+          https://orcid.org/0000-0002-7486-0076
+          Principal Investigator
+        
+        National Science Foundation 1242566
+      
+      
+        LTREB-Renewal: Collaborative Research: Behavioral and demographic responses of migratory birds to climate change (2012-2018)
+        
+          Nicholas Rodenhouse
+          Wellesley College
+          nrodenho@wellesley.edu
+          https://orcid.org/0000-0002-1291-1499
+          Principal Investigator
+        
+        National Science Foundation 1242508
+      
+      
+        LTER: Long Term Ecological Research at the Hubbard Brook Experimental Forest (2016-2022)
+        
+          Peter Groffman
+          Cary Institute of Ecosystem Studies
+          groffmanp@caryinstitute.org
+          https://orcid.org/0000-0001-8371-6255
+          Principal Investigator
+        
+        National Science Foundation 1637685
+      
+    
+    
+      HubbardBrook_Bird_MainPlot_1969-2018
+      Hubbard Brook bird data 1969-2018
+      
+        HubbardBrook_Bird_MainPlot_1969-2018.csv
+        5018
+        f09965c709518cbaca205a3f0e787a93
+        
+          
+            1
+            \n
+            column
+            
+              ,
+              "
+            
+          
+        
+        
+          
+            https://pasta.lternet.edu/package/data/eml/knb-lter-hbr/81/8/043d7527d229aa84ae1ddd8d1193ccbb
+          
+        
+      
+      
+        
+          BirdSpecies
+          Common name of bird species
+          string
+          
+            
+              
+                
+                  Common name of bird species
+                
+              
+            
+          
+        
+        
+          y.1969
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                whole
+                
+                  0
+                  26
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1970
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  28
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1971
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  43
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1972
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  49.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1973
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  57
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1974
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  26
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1975
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  39
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1976
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  42
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1977
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  44
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1978
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  32.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1979
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  36
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1980
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  34.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1981
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  26
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1982
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  32
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1983
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  30
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1984
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  20.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1985
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  27
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1986
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  22
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1987
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1988
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  22
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1989
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  22.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1990
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  24
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1991
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  25.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1992
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1993
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  17.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1994
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  18.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1995
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                whole
+                
+                  0
+                  18
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1996
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1997
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  22
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1998
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  17
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1999
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  23.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2000
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  28
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2001
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  29
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2002
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2003
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  21
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2004
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  21
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2005
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  24.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2006
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  22
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2007
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  20
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2008
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  21
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2009
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  27
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2010
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  23.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2011
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  22
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2012
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  24
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2013
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  28
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2014
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  31
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2015
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  30
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2016
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  32
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2017
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  28.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2018
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  28
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+      
+      33
+    
+    
+      Moosilauke_Bird_1986-2000
+      Mount Moosilaukee bird data 1986-2000
+      
+        Moosilauke_Bird_1986-2000.csv
+        2685
+        9c9fc386316d9fe8ba34cd04706f001a
+        
+          
+            1
+            \r\n
+            column
+            
+              ,
+              "
+            
+          
+        
+        
+          
+            https://pasta.lternet.edu/package/data/eml/knb-lter-hbr/81/8/5db2541599c27bd05c2b0bb1ff64bd1b
+          
+        
+      
+      
+        
+          BirdSpecies
+          Common name of bird species
+          string
+          
+            
+              
+                
+                  Common name of bird species
+                
+              
+            
+          
+        
+        
+          y.1986
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1987
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  20
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1988
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1989
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  22.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1990
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  21.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1991
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  26.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1992
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  14.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1993
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1994
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  14
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1995
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  20
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1996
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1997
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  24
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1998
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  18
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1999
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  27.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2000
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  27
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+      
+      34
+    
+    
+      RussellPond_Bird_1986-2000
+      Russell Pond bird data 1986-2000
+      
+        RussellPond_Bird_1986-2000.csv
+        2684
+        d43bcfa204775829ba920503486fb22d
+        
+          
+            1
+            \r\n
+            column
+            
+              ,
+              "
+            
+          
+        
+        
+          
+            https://pasta.lternet.edu/package/data/eml/knb-lter-hbr/81/8/7a37f5309b15ff0ae2432907c8781f39
+          
+        
+      
+      
+        
+          BirdSpecies
+          Common name of bird species
+          string
+          
+            
+              
+                
+                  Common name of bird species
+                
+              
+            
+          
+        
+        
+          y.1986
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  21
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1987
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  15.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1988
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  21.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1989
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  29
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1990
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  25.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1991
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  23.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1992
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1993
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  24.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1994
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  18
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1995
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  17
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1996
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  15
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1997
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  22.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1998
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  21
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1999
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2000
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  25
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+      
+      34
+    
+    
+      StinsonMountain_Bird_1986-2000
+      Stinson Mountain bird data 1986-2000
+      
+        StinsonMountain_Bird_1986-2000.csv
+        2771
+        dca72213cfa4f9268277b80debb55366
+        
+          
+            1
+            \r\n
+            column
+            
+              ,
+              "
+            
+          
+        
+        
+          
+            https://pasta.lternet.edu/package/data/eml/knb-lter-hbr/81/8/55f1dfb7f7c839c16e797b2bdabc5984
+          
+        
+      
+      
+        
+          BirdSpecies
+          Common name of bird species
+          string
+          
+            
+              
+                
+                  Common name of bird species
+                
+              
+            
+          
+        
+        
+          y.1986
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  23
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1987
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  16.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1988
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  17
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1989
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  16.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1990
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1991
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1992
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1993
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  17.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1994
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  14
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1995
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  18
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1996
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  18
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1997
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  19.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1998
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  18.5
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.1999
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  27
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+        
+          y.2000
+          The number of adult birds (males and females) per 10 ha, taking into account territories that partially overlap the 10 hectare area
+          float
+          
+            
+              
+                number
+              
+              
+                real
+                
+                  0
+                  25
+                
+              
+            
+          
+          
+            t
+            Species present but occurring at very low numbers (<0.5 individuals/10 ha) are indicated by the letter t (= trace)
+          
+        
+      
+      35
+    
+  

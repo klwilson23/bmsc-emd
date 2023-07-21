@@ -52,7 +52,7 @@ Note that this analysis attributed all the error to within-stream variation. How
 Let's see if we can ask how do streams vary instead? Fit a linear mixed effects model (and drop the intercept using the `-1` term in `lm()`)
 ```{r lm version 2, echo=FALSE}
 print("Linear Fixed Effects Model, with stream-effect") 
-lm2 <- lm(Density~Stream-1,data=Streams)   
+lm2 <- lm(Density~as.factor(Stream)-1,data=Streams)   
  boxplot(split(lm2$residuals,Streams$Stream),ylab="Residual",xlab="Stream",csi=0.2)
  abline(0,0,lwd=3)
  print(summary(lm2))

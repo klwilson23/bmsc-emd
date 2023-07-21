@@ -1,29 +1,135 @@
 ---
-title: "Lab 1"
+title: "Lab 6: Mixed-effects models in Stan"
 output: html_document
-date: "2023-06-19"
+date: "2023-07-20"
 ---
+## Streams revisited, but in Stan
 
-```{r setup, include=FALSE}
+Today, we are going to revisit the Streams dataset again (ugh - Streams again? - yes!). We've fit this model before in `nlme()` but now we want to see how a similar approach would work in Stan.
+
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+library(tidyverse)
+library(rstan)
+library(bayesplot)
+library(bayesAB)
+library(loo)
+library(DHARMa)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores()) #use for running model
 ```
 
-## R Markdown
+Now lets read in our dataset.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r data}
+Streams <- readRDS(file="Data/streams.rds")
+colnames(Streams) <- c("Stream","true_density","Density")
 ```
 
-## Including Plots
+We know that we want to get an equation that looks something like:
+$y_{i,j} = \beta + b_{j} + \epsilon_i$ where $\beta$ is the stream-level average density, $\epsilon_i ~ N(0,\sigma_E)$ is normally distributed error with standard deviation $\sigma_E$ and the stream-level random effects are $b_{j} ~ N(0,\sigma_S)$ where $\sigma_S$ is the standard deviation among streams.
 
-You can also embed plots, for example:
+Let's try to fit this in Stan. First, we create our dataset as a list. Next, we will set some starting parameters. Last, we will switch over to Stan.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r stan data}
+
+stan_data <- list("N"=nrow(Streams),
+                  "y"=Streams$Density,
+                  "Nstreams"=length(unique(Streams$Stream)),
+                  "stream_id"=as.numeric(Streams$Stream))
+
+init_fx <- function(chain_id)
+{
+  list("beta" = mean(Streams$Stream),
+       "sigma_stream"=1,
+       "sigma"=1)
+}
+
+fit <- rstan::stan(file = "Labs/Lab 6/Lab 6.stan",
+                   data = stan_data,
+                   iter = 2000,
+                   chains = 4,
+                   init = init_fx)
+post_summ <- summary(fit,pars=c("beta","sigma_stream","sigma"),probs=c(0.025,0.975))$summary
+print(post_summ)
+summary(fit,pars=c("stream_effect"))$summary
+
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Now lets plot this to the true densities from the original data. Note here that the stream effects, in actual density per stream, is:
+$\beta_j=\beta + b_j$
+
+```{r plot fits}
+true_density <- as.numeric(unique(Streams$true_density))
+stream_eff <- rstan::extract(fit)$stream_effect
+ci <- apply(stream_eff,2,function(x){c(mean(x),quantile(x,probs=c(0.025,0.975)))})
+
+plot(true_density,ci[1,],ylim=range(ci),xlab="True value",ylab="Random effects") # extract the stream-level effects (fixed effect + random effects) and compare to true values
+segments(x0=true_density,y0=ci[2,],y1=ci[3,])
+points(true_density,ci[1,])
+abline(b=1,a=0) # add a 1:1 line for comparison
+```
+Now let's conduct our posterior predictive checks
+```{r pp checks}
+posterior <- as.array(fit)
+bayesplot::mcmc_areas(posterior, pars = c("beta","sigma_stream","sigma"))
+rstan::traceplot(fit, pars = c("beta","sigma_stream","sigma"))
+```
+
+What does this look like compared to `nlme()`
+
+```{r nlme}
+lm3 <- nlme::lme(fixed = Density ~ 1,data=Streams,random = ~ 1 | Stream) 
+cbind("nlme"=coef(lm3)[[1]],"stan"=ci[1,])
+```
+
+But note that Stan (or Bayesian more generally) actually provides us estimates of uncertainty in our random effects! All for the low low cost of our sanity.
+
+Let's finish this off with some additional diagnostics.
+
+```{r diagnostics}
+# do a quick pp_check
+y_ppd <- extract(fit)$y_ppd
+b1 <- bayesplot::ppc_dens_overlay(stan_data$y, y_ppd[sample(1:nrow(y_ppd),250),])
+b2 <- bayesplot::ppc_stat_2d(stan_data$y, y_ppd, stat = c("mean", "sd"))
+bayes_diag <- ggpubr::ggarrange(b1,b2, ncol = 1,nrow=2)
+print(bayes_diag)
+
+# Dharma residuals
+dharma_resids <- function(model, iter, response, y_ppd = "y_ppd"){
+  #extract model predictions based on our generated quantities section (the y_ppd variable)
+  predictions <- as.data.frame(rstan::extract(model,pars = y_ppd)[[1]]) %>%
+    #get things in the right format
+    rownames_to_column() %>%
+    pivot_longer(!rowname,
+                 names_to = "obs",
+                 values_to = "y_ppd") %>%
+    mutate(rowname = as.numeric(rowname))
+  # randomly select 250 draws
+  sim_response_matrix <-
+    data.frame(rowname = sample(1:iter, 4000, replace = FALSE)) %>%
+    #left_join will grab only the rows in predictions that line up with the row
+    #names we randomly generated above
+    left_join(predictions, by = "rowname") %>%
+    #remove obs so we can pivot wider without pissing it off
+    dplyr::select(-obs) %>%
+    group_by(rowname) %>%
+    mutate(row = row_number()) %>%
+    #get everything back in the right format
+    pivot_wider(id_cols = everything(), names_from = 'rowname', values_from = 'y_ppd') %>%
+    dplyr::select(-row) %>%
+    as.matrix()
+  #calculate the residuals using the simulated responses and the actual raw data
+  resids <- DHARMa::createDHARMa(simulatedResponse = sim_response_matrix,
+                                 observedResponse = response,
+                                 fittedPredictedResponse = apply(t(sim_response_matrix), 2, mean),
+                                 integerResponse = FALSE)
+  return(resids)
+}
+
+#run our custom function on our model and with our raw data
+resids <- dharma_resids(fit, iter=nrow(y_ppd), stan_data$y)
+plot(resids)
+```
