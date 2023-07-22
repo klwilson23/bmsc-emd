@@ -41,7 +41,7 @@ stan_data <- list("N"=nrow(Streams),
 
 init_fx <- function(chain_id)
 {
-  list("beta" = mean(Streams$Stream),
+  list("beta" = mean(Streams$Density),
        "sigma_stream"=1,
        "sigma"=1)
 }
@@ -94,8 +94,10 @@ Let's finish this off with some additional diagnostics.
 y_ppd <- extract(fit)$y_ppd
 b1 <- bayesplot::ppc_dens_overlay(stan_data$y, y_ppd[sample(1:nrow(y_ppd),250),])
 b2 <- bayesplot::ppc_stat_2d(stan_data$y, y_ppd, stat = c("mean", "sd"))
-bayes_diag <- ggpubr::ggarrange(b1,b2, ncol = 1,nrow=2)
+bayes_diag <- ggpubr::ggarrange(b1,b2, ncol = 1,nrow=2,common.legend = TRUE)
 print(bayes_diag)
+
+b1/b2
 
 # Dharma residuals
 dharma_resids <- function(model, iter, response, y_ppd = "y_ppd"){
